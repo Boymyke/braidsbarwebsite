@@ -670,7 +670,12 @@
       overflow-x: auto;
       overscroll-behavior-inline: contain;
       scroll-snap-type: inline mandatory;
+      scrollbar-width: none;
       padding-block-end: 12px;
+    }
+
+    .bb-home__collection-grid::-webkit-scrollbar {
+      display: none;
     }
 
     .bb-home__collection-card {
@@ -694,7 +699,11 @@
     }
 
     .bb-home__texture-card {
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 2 / 3;
+    }
+
+    .bb-home__texture-card img {
+      object-position: center top;
     }
   }
 

@@ -452,21 +452,24 @@
     .bb-site-header__mobile-panel {
       position: fixed;
       inset: 106px 0 0;
+      z-index: 40;
       width: 100vw;
       height: calc(100dvh - 106px);
       max-height: none;
       display: flex;
       flex-direction: column;
+      background: #f7f2ed;
       border: 0;
       border-block-start: 1px solid rgb(24 16 16 / 12%);
       box-shadow: none;
+      isolation: isolate;
       overscroll-behavior: contain;
     }
 
     .bb-site-header__mobile-panel nav {
       width: min(100%, var(--bb-shell));
       margin-inline: auto;
-      padding: 18px clamp(20px, 4vw, 72px) 8px;
+      padding: 0 clamp(20px, 4vw, 72px) 8px;
     }
 
     .bb-site-header__mobile-panel a {
