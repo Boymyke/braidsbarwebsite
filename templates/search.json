@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "header": {
+      "type": "search-header",
+      "settings": {}
+    },
+    "results": {
+      "type": "search-results",
+      "settings": {}
+    }
+  },
+  "order": ["header", "results"]
+}

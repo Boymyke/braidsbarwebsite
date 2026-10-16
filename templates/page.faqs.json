@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "braidbar-faqs",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,11 @@
+{
+  "type": "header",
+  "name": "t:names.header",
+  "sections": {
+    "braidbar_header": {
+      "type": "braidbar-header",
+      "settings": {}
+    }
+  },
+  "order": ["braidbar_header"]
+}

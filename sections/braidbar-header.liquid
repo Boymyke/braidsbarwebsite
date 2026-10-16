@@ -1,0 +1,534 @@
+{% comment %}
+  Shared BRAIDBAR storefront header and global responsive safeguards.
+  @example
+  <!-- Rendered from sections/header-group.json on every storefront template -->
+{% endcomment %}
+
+<div class="bb-site-header">
+  <div class="bb-site-header__announcement">
+    <div class="bb-shell bb-site-header__announcement-inner">
+      <span>{{ 'braidbar.header.announcement' | t }}</span>
+      {% form 'localization', class: 'bb-site-header__locale-form bb-site-header__languages' %}
+        <label for="bb-language-desktop-{{ section.id }}">{{ 'braidbar.header.language_label' | t }}</label>
+        <select
+          id="bb-language-desktop-{{ section.id }}"
+          name="locale_code"
+          aria-label="{{ 'braidbar.header.language_label' | t }}"
+          onchange="this.form.submit()"
+        >
+          {% for language in localization.available_languages %}
+            <option value="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>
+              {{- language.endonym_name -}}
+            </option>
+          {% endfor %}
+        </select>
+        <noscript>
+          <button type="submit">{{ 'braidbar.header.change_language' | t }}</button>
+        </noscript>
+      {% endform %}
+    </div>
+  </div>
+
+  <header class="bb-site-header__main">
+    <div class="bb-shell bb-site-header__row">
+      <a class="bb-site-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+        <img
+          src="{{ 'braidbar-logo.svg' | asset_url }}"
+          width="952"
+          height="138"
+          alt="{{ shop.name | escape }}"
+          fetchpriority="high"
+        >
+      </a>
+
+      <nav class="bb-site-header__desktop-nav" aria-label="{{ 'braidbar.header.primary_navigation' | t }}">
+        <a href="{{ routes.collections_url }}/wigs">{{ 'braidbar.nav.wigs' | t }}</a>
+        <a href="{{ routes.collections_url }}/bundles">{{ 'braidbar.nav.bundles' | t }}</a>
+        <a href="{{ routes.collections_url }}/lace-fronts">{{ 'braidbar.nav.lace_fronts' | t }}</a>
+        <a href="{{ routes.collections_url }}/closures">{{ 'braidbar.nav.closures' | t }}</a>
+        <a href="/pages/book-appointment">{{ 'braidbar.nav.appointments' | t }}</a>
+        <a href="/pages/about">{{ 'braidbar.nav.about' | t }}</a>
+        <a href="/pages/faqs">{{ 'braidbar.nav.faqs' | t }}</a>
+      </nav>
+
+      <div class="bb-site-header__actions">
+        <a class="bb-site-header__action" href="{{ routes.search_url }}">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m16 16 5 5"></path>
+          </svg>
+          <span class="bb-site-header__action-label">{{ 'braidbar.header.search' | t }}</span>
+        </a>
+        <a class="bb-site-header__action" href="{{ routes.cart_url }}">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
+            <path d="M4 7h16l-1.5 13h-13L4 7Z"></path>
+            <path d="M8 7a4 4 0 0 1 8 0"></path>
+          </svg>
+          <span class="bb-site-header__action-label">{{ 'braidbar.header.bag' | t }}</span>
+          <span class="bb-site-header__count" aria-label="{{ 'braidbar.header.cart_count' | t: count: cart.item_count }}">
+            {{- cart.item_count -}}
+          </span>
+        </a>
+
+        <details class="bb-site-header__mobile-menu">
+          <summary>
+            <span class="visually-hidden bb-site-header__menu-label--open">{{ 'braidbar.header.open_menu' | t }}</span>
+            <span class="visually-hidden bb-site-header__menu-label--close">{{ 'braidbar.header.close_menu' | t }}</span>
+            <svg class="bb-site-header__menu-icon bb-site-header__menu-icon--open" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24">
+              <path d="M3 6h18M3 12h18M3 18h18"></path>
+            </svg>
+            <svg class="bb-site-header__menu-icon bb-site-header__menu-icon--close" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24">
+              <path d="M5 5l14 14M19 5 5 19"></path>
+            </svg>
+          </summary>
+          <div class="bb-site-header__mobile-panel">
+            <nav aria-label="{{ 'braidbar.header.primary_navigation' | t }}">
+              <a href="{{ routes.collections_url }}/wigs">{{ 'braidbar.nav.wigs' | t }}</a>
+              <a href="{{ routes.collections_url }}/bundles">{{ 'braidbar.nav.bundles' | t }}</a>
+              <a href="{{ routes.collections_url }}/lace-fronts">{{ 'braidbar.nav.lace_fronts' | t }}</a>
+              <a href="{{ routes.collections_url }}/closures">{{ 'braidbar.nav.closures' | t }}</a>
+              <a href="/pages/book-appointment">{{ 'braidbar.nav.appointments' | t }}</a>
+              <a href="/pages/about">{{ 'braidbar.nav.about' | t }}</a>
+              <a href="/pages/faqs">{{ 'braidbar.nav.faqs' | t }}</a>
+            </nav>
+            {% form 'localization', class: 'bb-site-header__mobile-locale-form' %}
+              <label for="bb-language-mobile-{{ section.id }}">{{ 'braidbar.header.language_label' | t }}</label>
+              <div>
+                <select id="bb-language-mobile-{{ section.id }}" name="locale_code">
+                  {% for language in localization.available_languages %}
+                    <option value="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>
+                      {{- language.endonym_name -}}
+                    </option>
+                  {% endfor %}
+                </select>
+                <button type="submit">{{ 'braidbar.header.change_language' | t }}</button>
+              </div>
+            {% endform %}
+          </div>
+        </details>
+      </div>
+    </div>
+  </header>
+</div>
+
+{% stylesheet %}
+  :root {
+    --bb-ink: #181010;
+    --bb-dark: #201810;
+    --bb-taupe: #b0a8a0;
+    --bb-soft-taupe: #b8a8a8;
+    --bb-mocha: #a89888;
+    --bb-cream: #f7f2ed;
+    --bb-shell: 1500px;
+  }
+
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  body {
+    background: var(--bb-cream);
+  }
+
+  .page-wrapper,
+  .content-for-layout,
+  .shopify-section,
+  .section,
+  .section-content-wrapper,
+  .product-information,
+  .product-grid,
+  .collection,
+  .search-results {
+    min-width: 0;
+  }
+
+  :where(img, video, iframe, table, input, select, textarea) {
+    max-width: 100%;
+  }
+
+  :where(h1, h2, h3, h4, p, a, button, label, summary, .rte) {
+    overflow-wrap: anywhere;
+  }
+
+  .bb-shell {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: var(--bb-shell);
+    margin-inline: auto;
+    padding-inline: clamp(20px, 4vw, 72px);
+  }
+
+  .bb-site-header *,
+  .bb-site-header *::before,
+  .bb-site-header *::after,
+  .bb-home *,
+  .bb-home *::before,
+  .bb-home *::after,
+  .bb-booking *,
+  .bb-booking *::before,
+  .bb-booking *::after,
+  .bb-site-footer *,
+  .bb-site-footer *::before,
+  .bb-site-footer *::after {
+    box-sizing: border-box;
+  }
+
+  #header-group {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 30;
+  }
+
+  .bb-site-header {
+    position: relative;
+    color: var(--bb-ink);
+    background: var(--bb-cream);
+    border-block-end: 1px solid rgb(24 16 16 / 12%);
+  }
+
+  .bb-site-header__announcement {
+    color: #fff;
+    background: var(--bb-dark);
+  }
+
+  .bb-site-header__announcement-inner {
+    min-height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    font-size: 0.6875rem;
+    line-height: 1.3;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .bb-site-header__locale-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .bb-site-header__locale-form label {
+    font: inherit;
+  }
+
+  .bb-site-header__locale-form select {
+    width: auto;
+    min-width: 102px;
+    padding: 3px 22px 3px 8px;
+    color: inherit;
+    background: transparent;
+    border: 1px solid rgb(255 255 255 / 35%);
+    border-radius: 0;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: none;
+  }
+
+  .bb-site-header__locale-form select:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  .bb-site-header__main {
+    position: relative;
+    background: rgb(247 242 237 / 96%);
+    backdrop-filter: blur(14px);
+  }
+
+  .bb-site-header__row {
+    min-height: 84px;
+    display: grid;
+    grid-template-columns: minmax(150px, 220px) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(18px, 2vw, 36px);
+  }
+
+  .bb-site-header__logo {
+    display: block;
+    width: min(100%, 220px);
+  }
+
+  .bb-site-header__logo img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .bb-site-header__desktop-nav {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(10px, 1.35vw, 24px);
+  }
+
+  .bb-site-header__desktop-nav a,
+  .bb-site-header__action {
+    color: inherit;
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .bb-site-header__desktop-nav a {
+    padding-block: 16px;
+  }
+
+  .bb-site-header__desktop-nav a:hover,
+  .bb-site-header__desktop-nav a:focus-visible,
+  .bb-site-header__action:hover,
+  .bb-site-header__action:focus-visible {
+    color: var(--bb-mocha);
+  }
+
+  .bb-site-header__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+
+  .bb-site-header__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+  }
+
+  .bb-site-header__action svg,
+  .bb-site-header__mobile-menu svg {
+    fill: none;
+    stroke: currentcolor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
+  .bb-site-header__count {
+    min-width: 20px;
+    height: 20px;
+    display: inline-grid;
+    place-items: center;
+    padding-inline: 5px;
+    color: #fff;
+    background: var(--bb-dark);
+    border-radius: 999px;
+    font-size: 0.625rem;
+  }
+
+  .bb-site-header__mobile-menu {
+    display: none;
+    position: relative;
+  }
+
+  .bb-site-header__mobile-menu summary {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .bb-site-header__mobile-menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .bb-site-header__menu-icon--close,
+  .bb-site-header__menu-label--close {
+    display: none;
+  }
+
+  .bb-site-header__mobile-menu[open] .bb-site-header__menu-icon--open,
+  .bb-site-header__mobile-menu[open] .bb-site-header__menu-label--open {
+    display: none;
+  }
+
+  .bb-site-header__mobile-menu[open] .bb-site-header__menu-icon--close {
+    display: block;
+  }
+
+  .bb-site-header__mobile-menu[open] .bb-site-header__menu-label--close {
+    display: inline;
+  }
+
+  .bb-site-header__mobile-panel {
+    position: absolute;
+    inset-block-start: calc(100% + 20px);
+    inset-inline-end: 0;
+    width: min(88vw, 360px);
+    max-height: min(70vh, 560px);
+    overflow-y: auto;
+    background: var(--bb-cream);
+    border: 1px solid rgb(24 16 16 / 16%);
+    box-shadow: 0 24px 60px rgb(32 24 16 / 18%);
+  }
+
+  .bb-site-header__mobile-panel nav {
+    display: grid;
+    padding: 10px 22px;
+  }
+
+  .bb-site-header__mobile-panel a {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    color: inherit;
+    border-block-end: 1px solid rgb(24 16 16 / 10%);
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .bb-site-header__mobile-locale-form {
+    display: grid;
+    gap: 8px;
+    padding: 18px 22px 22px;
+    background: #eee5de;
+  }
+
+  .bb-site-header__mobile-locale-form label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .bb-site-header__mobile-locale-form > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  .bb-site-header__mobile-locale-form select,
+  .bb-site-header__mobile-locale-form button {
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid var(--bb-dark);
+    border-radius: 0;
+    font: inherit;
+  }
+
+  .bb-site-header__mobile-locale-form select {
+    min-width: 0;
+    color: var(--bb-ink);
+    background: #fff;
+  }
+
+  .bb-site-header__mobile-locale-form button {
+    color: #fff;
+    background: var(--bb-dark);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 1099px) {
+    body:has(.bb-site-header__mobile-menu[open]) {
+      overflow: hidden;
+    }
+
+    .bb-site-header__row {
+      min-height: 72px;
+      grid-template-columns: minmax(138px, 190px) 1fr;
+    }
+
+    .bb-site-header__desktop-nav {
+      display: none;
+    }
+
+    .bb-site-header__mobile-menu {
+      display: block;
+      position: static;
+    }
+
+    .bb-site-header__mobile-panel {
+      position: fixed;
+      inset: 106px 0 0;
+      width: 100vw;
+      height: calc(100dvh - 106px);
+      max-height: none;
+      display: flex;
+      flex-direction: column;
+      border: 0;
+      border-block-start: 1px solid rgb(24 16 16 / 12%);
+      box-shadow: none;
+      overscroll-behavior: contain;
+    }
+
+    .bb-site-header__mobile-panel nav {
+      width: min(100%, var(--bb-shell));
+      margin-inline: auto;
+      padding: 18px clamp(20px, 4vw, 72px) 8px;
+    }
+
+    .bb-site-header__mobile-panel a {
+      min-height: 56px;
+      font-size: 0.875rem;
+    }
+
+    .bb-site-header__mobile-locale-form {
+      margin-block-start: auto;
+      padding: 22px max(clamp(20px, 4vw, 72px), calc((100vw - var(--bb-shell)) / 2 + 72px));
+    }
+  }
+
+  @media (max-width: 749px) {
+    .bb-shell {
+      padding-inline: 16px;
+    }
+
+    .bb-site-header__announcement-inner {
+      min-height: 38px;
+      justify-content: center;
+      text-align: center;
+      letter-spacing: 0.08em;
+    }
+
+    .bb-site-header__languages,
+    .bb-site-header__action-label {
+      display: none;
+    }
+
+    .bb-site-header__row {
+      min-height: 66px;
+      grid-template-columns: minmax(126px, 164px) 1fr;
+      gap: 10px;
+    }
+
+    .bb-site-header__actions {
+      gap: 6px;
+    }
+
+    .bb-site-header__mobile-panel {
+      inset: 104px 0 0;
+      height: calc(100dvh - 104px);
+    }
+
+    .bb-site-header__mobile-panel nav {
+      padding-inline: 20px;
+    }
+
+    .bb-site-header__mobile-locale-form {
+      padding-inline: 20px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.header",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [],
+  "presets": []
+}
+{% endschema %}

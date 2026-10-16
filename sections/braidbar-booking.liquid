@@ -1,0 +1,428 @@
+{% liquid
+  assign service_keys = 'braidbar.booking.service_knotless_box|braidbar.booking.service_small_knotless|braidbar.booking.service_medium_knotless|braidbar.booking.service_large_knotless|braidbar.booking.service_box|braidbar.booking.service_small_box|braidbar.booking.service_medium_box|braidbar.booking.service_large_box|braidbar.booking.service_jumbo_box|braidbar.booking.service_boho_knotless|braidbar.booking.service_boho_box|braidbar.booking.service_fulani|braidbar.booking.service_fulani_knotless|braidbar.booking.service_lemonade|braidbar.booking.service_goddess|braidbar.booking.service_goddess_knotless|braidbar.booking.service_french_curl|braidbar.booking.service_cornrows|braidbar.booking.service_simple_cornrows|braidbar.booking.service_stitch_cornrows|braidbar.booking.service_feed_in_cornrows|braidbar.booking.service_cornrows_extensions|braidbar.booking.service_braided_ponytail' | split: '|'
+  assign service_prices = '65|85|75|60|65|85|70|55|50|90|85|75|85|65|80|90|85|35|30|45|50|55|60' | split: '|'
+%}
+
+<section class="bb-booking" aria-labelledby="bb-booking-page-title-{{ section.id }}">
+  <div class="bb-shell">
+    <div class="bb-booking__intro">
+      <p class="bb-booking__eyebrow">{{ 'braidbar.booking.eyebrow' | t }}</p>
+      <h1 id="bb-booking-page-title-{{ section.id }}">{{ 'braidbar.booking.title' | t }}</h1>
+      <p class="bb-booking__lead">{{ 'braidbar.booking.intro' | t }}</p>
+      <p class="bb-booking__included">{{ 'braidbar.booking.included' | t }}</p>
+    </div>
+
+    <div class="bb-booking__layout">
+      <div class="bb-booking__services" aria-labelledby="bb-services-title-{{ section.id }}">
+        <div class="bb-booking__services-heading">
+          <p class="bb-booking__eyebrow">{{ 'braidbar.booking.price_eyebrow' | t }}</p>
+          <h2 id="bb-services-title-{{ section.id }}">{{ 'braidbar.booking.price_title' | t }}</h2>
+        </div>
+        <ul class="bb-booking__price-list">
+          {% for service_key in service_keys %}
+            {% assign service_price = service_prices[forloop.index0] %}
+            <li>
+              <span>{{ service_key | t }}</span>
+              <strong>€{{ service_price }}</strong>
+            </li>
+          {% endfor %}
+        </ul>
+        <dl class="bb-booking__details">
+          <div>
+            <dt>{{ 'braidbar.booking.languages_label' | t }}</dt>
+            <dd>{{ 'braidbar.booking.languages_value' | t }}</dd>
+          </div>
+          <div>
+            <dt>{{ 'braidbar.booking.area_label' | t }}</dt>
+            <dd>{{ 'braidbar.booking.area_value' | t }}</dd>
+          </div>
+          <div>
+            <dt>{{ 'braidbar.booking.confirmation_label' | t }}</dt>
+            <dd>{{ 'braidbar.booking.confirmation_value' | t }}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="bb-booking__form-card">
+        {% form 'contact', class: 'bb-booking__form' %}
+          {% if form.posted_successfully? %}
+            <div class="bb-booking__success" role="status" tabindex="-1">
+              {{ 'braidbar.booking.success' | t }}
+            </div>
+          {% endif %}
+
+          {% if form.errors %}
+            <div class="bb-booking__errors" role="alert">
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+
+          <input type="hidden" name="contact[Request type]" value="Hair braiding appointment">
+          <input class="bb-booking__price-input" type="hidden" name="contact[Service price]" value="">
+
+          <div class="bb-booking__fields">
+            <div class="bb-booking__field">
+              <label for="bb-name-{{ section.id }}">{{ 'braidbar.booking.name' | t }}</label>
+              <input id="bb-name-{{ section.id }}" name="contact[name]" autocomplete="name" required>
+            </div>
+
+            <div class="bb-booking__field">
+              <label for="bb-email-{{ section.id }}">{{ 'braidbar.booking.email' | t }}</label>
+              <input id="bb-email-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" required>
+            </div>
+
+            <div class="bb-booking__field">
+              <label for="bb-phone-{{ section.id }}">{{ 'braidbar.booking.phone' | t }}</label>
+              <input id="bb-phone-{{ section.id }}" type="tel" name="contact[Phone]" autocomplete="tel" required>
+            </div>
+
+            <div class="bb-booking__field">
+              <label for="bb-language-{{ section.id }}">{{ 'braidbar.booking.preferred_language' | t }}</label>
+              <select id="bb-language-{{ section.id }}" name="contact[Preferred language]">
+                <option value="Português">Português</option>
+                <option value="English">English</option>
+              </select>
+            </div>
+
+            <div class="bb-booking__field bb-booking__field--full">
+              <label for="bb-service-{{ section.id }}">{{ 'braidbar.booking.service' | t }}</label>
+              <select class="bb-booking__service-select" id="bb-service-{{ section.id }}" name="contact[Service]" required>
+                <option value="" data-price="">{{ 'braidbar.booking.choose_service' | t }}</option>
+                {% for service_key in service_keys %}
+                  {% assign service_price = service_prices[forloop.index0] %}
+                  {% assign service_label = service_key | t %}
+                  <option value="{{ service_label | escape }} — €{{ service_price }}" data-price="€{{ service_price }}">
+                    {{- service_label }} — €{{ service_price -}}
+                  </option>
+                {% endfor %}
+              </select>
+              <div class="bb-booking__selection" aria-live="polite">
+                <span>{{ 'braidbar.booking.selected_price' | t }}</span>
+                <output class="bb-booking__selected-price" for="bb-service-{{ section.id }}">—</output>
+              </div>
+            </div>
+
+            <div class="bb-booking__field">
+              <label for="bb-date-{{ section.id }}">{{ 'braidbar.booking.preferred_date' | t }}</label>
+              <input id="bb-date-{{ section.id }}" type="date" name="contact[Preferred date]" min="{{ 'now' | date: '%Y-%m-%d' }}" required>
+            </div>
+
+            <div class="bb-booking__field">
+              <label for="bb-time-{{ section.id }}">{{ 'braidbar.booking.preferred_time' | t }}</label>
+              <input id="bb-time-{{ section.id }}" type="time" name="contact[Preferred time]" required>
+            </div>
+
+            <div class="bb-booking__field bb-booking__field--full">
+              <label for="bb-message-{{ section.id }}">{{ 'braidbar.booking.notes' | t }}</label>
+              <textarea id="bb-message-{{ section.id }}" name="contact[body]" rows="6" placeholder="{{ 'braidbar.booking.notes_placeholder' | t }}"></textarea>
+            </div>
+          </div>
+
+          <button class="bb-booking__submit" type="submit">{{ 'braidbar.booking.submit' | t }}</button>
+          <p class="bb-booking__note">{{ 'braidbar.booking.note' | t }}</p>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .bb-booking {
+    color: var(--bb-ink, #181010);
+    background: linear-gradient(145deg, #f7f2ed 0 55%, #eee5de 55% 100%);
+    padding-block: clamp(52px, 8vw, 112px);
+  }
+
+  .bb-booking__intro {
+    max-width: 940px;
+    margin-block-end: clamp(36px, 6vw, 72px);
+  }
+
+  .bb-booking__eyebrow {
+    margin: 0 0 14px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .bb-booking h1,
+  .bb-booking h2 {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 400;
+    letter-spacing: -0.045em;
+  }
+
+  .bb-booking h1 {
+    max-width: 12ch;
+    font-size: clamp(3.25rem, 7vw, 7rem);
+    line-height: 0.92;
+  }
+
+  .bb-booking h2 {
+    font-size: clamp(2.25rem, 4vw, 4.25rem);
+    line-height: 1;
+  }
+
+  .bb-booking__lead {
+    max-width: 62ch;
+    margin: 28px 0 0;
+    font-size: clamp(1rem, 1.2vw, 1.125rem);
+    line-height: 1.75;
+  }
+
+  .bb-booking__included {
+    display: inline-flex;
+    margin: 22px 0 0;
+    padding: 11px 14px;
+    background: #181010;
+    color: #fff;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    letter-spacing: 0.04em;
+  }
+
+  .bb-booking__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.88fr);
+    align-items: start;
+    gap: clamp(28px, 5vw, 72px);
+  }
+
+  .bb-booking__services,
+  .bb-booking__form-card,
+  .bb-booking__field {
+    min-width: 0;
+  }
+
+  .bb-booking__services-heading {
+    margin-block-end: 26px;
+  }
+
+  .bb-booking__price-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 28px;
+    margin: 0;
+    padding: 0;
+    border-block-start: 1px solid rgb(24 16 16 / 22%);
+    list-style: none;
+  }
+
+  .bb-booking__price-list li {
+    min-width: 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    padding-block: 13px;
+    border-block-end: 1px solid rgb(24 16 16 / 14%);
+    font-size: 0.875rem;
+    line-height: 1.35;
+  }
+
+  .bb-booking__price-list strong {
+    flex: 0 0 auto;
+    font-weight: 600;
+  }
+
+  .bb-booking__details {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin: 34px 0 0;
+  }
+
+  .bb-booking__details div {
+    padding-block-start: 14px;
+    border-block-start: 1px solid rgb(24 16 16 / 18%);
+  }
+
+  .bb-booking__details dt,
+  .bb-booking__details dd {
+    margin: 0;
+  }
+
+  .bb-booking__details dt {
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .bb-booking__details dd {
+    margin-block-start: 4px;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    opacity: 0.72;
+  }
+
+  .bb-booking__form-card {
+    position: sticky;
+    inset-block-start: 132px;
+    padding: clamp(24px, 3.5vw, 48px);
+    background: #fff;
+    border: 1px solid rgb(24 16 16 / 12%);
+    box-shadow: 0 24px 70px rgb(32 24 16 / 12%);
+  }
+
+  .bb-booking__success,
+  .bb-booking__errors {
+    margin-block-end: 22px;
+    padding: 14px 16px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .bb-booking__success {
+    background: #eee5de;
+  }
+
+  .bb-booking__errors {
+    color: #7d1c1c;
+    background: #fff0f0;
+  }
+
+  .bb-booking__fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 18px;
+  }
+
+  .bb-booking__field {
+    display: grid;
+    gap: 8px;
+  }
+
+  .bb-booking__field--full {
+    grid-column: 1 / -1;
+  }
+
+  .bb-booking__field label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .bb-booking__field :is(input, select, textarea) {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 12px 13px;
+    color: var(--bb-ink, #181010);
+    background: #fff;
+    border: 1px solid rgb(24 16 16 / 32%);
+    border-radius: 0;
+  }
+
+  .bb-booking__field textarea {
+    min-height: 132px;
+    resize: vertical;
+  }
+
+  .bb-booking__field :is(input, select, textarea):focus-visible {
+    border-color: var(--bb-dark, #201810);
+    outline: 2px solid var(--bb-mocha, #a89888);
+    outline-offset: 2px;
+  }
+
+  .bb-booking__selection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 36px;
+    padding: 8px 10px;
+    color: #fff;
+    background: #a89888;
+    font-size: 0.75rem;
+  }
+
+  .bb-booking__selected-price {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .bb-booking__submit {
+    width: 100%;
+    min-height: 52px;
+    margin-block-start: 22px;
+    padding: 12px 20px;
+    color: #fff;
+    background: var(--bb-dark, #201810);
+    border: 1px solid var(--bb-dark, #201810);
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .bb-booking__submit:hover,
+  .bb-booking__submit:focus-visible {
+    background: var(--bb-mocha, #a89888);
+    border-color: var(--bb-mocha, #a89888);
+  }
+
+  .bb-booking__note {
+    margin: 14px 0 0;
+    font-size: 0.75rem;
+    line-height: 1.55;
+    opacity: 0.68;
+  }
+
+  @media (max-width: 1050px) {
+    .bb-booking__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .bb-booking__form-card {
+      position: static;
+    }
+  }
+
+  @media (max-width: 699px) {
+    .bb-booking__price-list,
+    .bb-booking__details,
+    .bb-booking__fields {
+      grid-template-columns: 1fr;
+    }
+
+    .bb-booking__field--full {
+      grid-column: auto;
+    }
+
+    .bb-booking__form-card {
+      padding: 22px 16px 26px;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.querySelectorAll('.bb-booking__service-select').forEach((select) => {
+    const form = select.closest('.bb-booking__form');
+    const priceOutput = form.querySelector('.bb-booking__selected-price');
+    const priceInput = form.querySelector('.bb-booking__price-input');
+
+    const updatePrice = () => {
+      const selectedOption = select.options[select.selectedIndex];
+      const selectedPrice = selectedOption.dataset.price || '—';
+      priceOutput.textContent = selectedPrice;
+      priceInput.value = selectedOption.dataset.price || '';
+    };
+
+    select.addEventListener('change', updatePrice);
+    updatePrice();
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "BRAIDBAR booking",
+  "settings": [],
+  "presets": [
+    {
+      "name": "BRAIDBAR booking"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,34 @@
+{
+  "currency": "EUR",
+  "includes": [
+    "Hair washing",
+    "Drying",
+    "Hair products",
+    "Extensions"
+  ],
+  "services": [
+    { "name": "Knotless Box Braids", "price": "65.00" },
+    { "name": "Small Knotless Braids", "price": "85.00" },
+    { "name": "Medium Knotless Braids", "price": "75.00" },
+    { "name": "Large Knotless Braids", "price": "60.00" },
+    { "name": "Box Braids", "price": "65.00" },
+    { "name": "Small Box Braids", "price": "85.00" },
+    { "name": "Medium Box Braids", "price": "70.00" },
+    { "name": "Large Box Braids", "price": "55.00" },
+    { "name": "Jumbo Box Braids", "price": "50.00" },
+    { "name": "Boho Knotless Braids", "price": "90.00" },
+    { "name": "Boho Box Braids", "price": "85.00" },
+    { "name": "Fulani Braids", "price": "75.00" },
+    { "name": "Fulani Knotless Braids", "price": "85.00" },
+    { "name": "Lemonade Braids", "price": "65.00" },
+    { "name": "Goddess Braids", "price": "80.00" },
+    { "name": "Goddess Knotless Braids", "price": "90.00" },
+    { "name": "French Curl Braids", "price": "85.00" },
+    { "name": "Cornrows", "price": "35.00" },
+    { "name": "Simple Cornrows", "price": "30.00" },
+    { "name": "Stitch Cornrows", "price": "45.00" },
+    { "name": "Feed-In Cornrows", "price": "50.00" },
+    { "name": "Cornrows with Extensions", "price": "55.00" },
+    { "name": "Braided Ponytail", "price": "60.00" }
+  ]
+}

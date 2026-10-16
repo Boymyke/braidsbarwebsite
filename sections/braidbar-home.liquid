@@ -1,0 +1,738 @@
+{% liquid
+  assign fallback_image = 'braidbar-textures-v2.png' | asset_url
+  assign appointment_image = 'braidbar-salon-appointment.png' | asset_url
+  assign texture_images = 'braidbar-catalogue-bone-straight.jpeg|braidbar-catalogue-body-wave.jpeg|braidbar-catalogue-deep-wave.jpeg' | split: '|'
+  assign collection_images = 'braidbar-catalogue-jerry-curl.png|braidbar-catalogue-body-wave.jpeg|braidbar-catalogue-deep-wave.jpeg|braidbar-catalogue-chestnut.jpeg' | split: '|'
+  assign collection_items = 'wigs:braidbar.collections.wigs|bundles:braidbar.collections.bundles|lace-fronts:braidbar.collections.lace_fronts|closures:braidbar.collections.closures' | split: '|'
+  assign texture_items = 'braidbar.home.texture_straight|braidbar.home.texture_body_wave|braidbar.home.texture_curly' | split: '|'
+  assign featured_collection = collections['best-sellers']
+
+  if featured_collection.products.size == 0
+    assign featured_collection = collections['wigs']
+  endif
+%}
+
+<div class="bb-home">
+  <section class="bb-home__hero" aria-labelledby="bb-home-title-{{ section.id }}">
+    <img
+      class="bb-home__hero-image"
+      src="{{ 'braidbar-hero-v2.png' | asset_url }}"
+      sizes="100vw"
+      width="1855"
+      height="848"
+      alt="{{ 'braidbar.home.hero_alt' | t }}"
+      fetchpriority="high"
+    >
+    <div class="bb-home__hero-shade" aria-hidden="true"></div>
+    <div class="bb-shell bb-home__hero-inner">
+      <div class="bb-home__hero-copy">
+        <p class="bb-home__eyebrow">{{ 'braidbar.home.eyebrow' | t }}</p>
+        <h1 id="bb-home-title-{{ section.id }}">{{ 'braidbar.home.title_html' | t }}</h1>
+        <p class="bb-home__lead">{{ 'braidbar.home.lead' | t }}</p>
+        <div class="bb-home__actions">
+          <a class="bb-home__button bb-home__button--primary" href="{{ routes.collections_url }}/wigs">
+            {{- 'braidbar.home.shop_wigs' | t -}}
+          </a>
+          <a class="bb-home__button bb-home__button--secondary" href="/pages/book-appointment">
+            {{- 'braidbar.home.book_appointment' | t -}}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bb-home__section bb-home__section--collections" aria-labelledby="bb-collections-title-{{ section.id }}">
+    <div class="bb-shell">
+      <div class="bb-home__heading-row">
+        <div>
+          <p class="bb-home__eyebrow">{{ 'braidbar.home.collection_eyebrow' | t }}</p>
+          <h2 id="bb-collections-title-{{ section.id }}">{{ 'braidbar.home.collections_title' | t }}</h2>
+        </div>
+        <a href="{{ routes.collections_url }}">{{ 'braidbar.home.view_all' | t }}</a>
+      </div>
+
+      <div class="bb-home__collection-grid">
+        {% for item in collection_items %}
+          {% liquid
+            assign item_parts = item | split: ':'
+            assign collection_handle = item_parts[0]
+            assign title_key = item_parts[1]
+            assign card_collection = collections[collection_handle]
+            assign card_image_filename = collection_images[forloop.index0]
+            assign card_image = card_image_filename | asset_url
+            assign card_url = routes.collections_url | append: '/' | append: collection_handle
+
+            if card_collection.url != blank
+              assign card_url = card_collection.url
+            endif
+          %}
+          <a class="bb-home__collection-card" href="{{ card_url }}">
+            <div class="bb-home__collection-media bb-home__collection-media--{{ forloop.index }}">
+              <img
+                src="{{ card_image }}"
+                sizes="(min-width: 1200px) 25vw, (min-width: 750px) 50vw, 78vw"
+                width="720"
+                height="900"
+                alt="{{ title_key | t }}"
+                loading="lazy"
+              >
+            </div>
+            <span>{{ title_key | t }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="bb-home__section" aria-labelledby="bb-featured-title-{{ section.id }}">
+    <div class="bb-shell">
+      <div class="bb-home__heading-row">
+        <div>
+          <p class="bb-home__eyebrow">{{ 'braidbar.home.featured_eyebrow' | t }}</p>
+          <h2 id="bb-featured-title-{{ section.id }}">{{ 'braidbar.home.featured_title' | t }}</h2>
+        </div>
+        <a href="{{ routes.collections_url }}/wigs">{{ 'braidbar.home.view_all' | t }}</a>
+      </div>
+
+      {% if featured_collection.products.size > 0 %}
+        <div class="bb-home__product-grid">
+          {% for product in featured_collection.products limit: 4 %}
+            <article class="bb-home__product-card">
+              <a href="{{ product.url }}">
+                <div class="bb-home__product-media">
+                  {% if product.featured_image %}
+                    {{
+                      product.featured_image
+                      | image_url: width: 900
+                      | image_tag:
+                        widths: '360, 540, 720, 900',
+                        sizes: '(min-width: 990px) 25vw, (min-width: 600px) 50vw, 100vw',
+                        loading: 'lazy',
+                        alt: product.featured_image.alt | default: product.title
+                    }}
+                  {% else %}
+                    <img
+                      src="{{ fallback_image }}"
+                      width="720"
+                      height="720"
+                      alt="{{ product.title | escape }}"
+                      loading="lazy"
+                    >
+                  {% endif %}
+                </div>
+                <div class="bb-home__product-copy">
+                  <h3>{{ product.title }}</h3>
+                  <p>{{ product.price | money }}</p>
+                </div>
+              </a>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="bb-home__empty-state">
+          <img
+            src="{{ fallback_image }}"
+            sizes="(min-width: 750px) 42vw, 100vw"
+            width="900"
+            height="900"
+            alt="{{ 'braidbar.home.fallback_alt' | t }}"
+            loading="lazy"
+          >
+          <div>
+            <p class="bb-home__eyebrow">{{ 'braidbar.home.coming_eyebrow' | t }}</p>
+            <h3>{{ 'braidbar.home.coming_title' | t }}</h3>
+            <p>{{ 'braidbar.home.coming_text' | t }}</p>
+            <a class="bb-home__button bb-home__button--primary" href="{{ routes.collections_url }}/wigs">
+              {{- 'braidbar.home.explore_collection' | t -}}
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="bb-home__booking" aria-labelledby="bb-booking-title-{{ section.id }}">
+    <div class="bb-shell bb-home__booking-grid">
+      <div class="bb-home__booking-copy">
+        <p class="bb-home__eyebrow">{{ 'braidbar.home.booking_eyebrow' | t }}</p>
+        <h2 id="bb-booking-title-{{ section.id }}">{{ 'braidbar.home.booking_title' | t }}</h2>
+        <p>{{ 'braidbar.home.booking_text' | t }}</p>
+        <a class="bb-home__button bb-home__button--primary" href="/pages/book-appointment">
+          {{- 'braidbar.home.book_appointment' | t -}}
+        </a>
+      </div>
+      <div class="bb-home__booking-media">
+        <img
+          src="{{ appointment_image }}"
+          sizes="(min-width: 750px) 55vw, 100vw"
+          width="1000"
+          height="1250"
+          alt="{{ 'braidbar.home.appointment_alt' | t }}"
+          loading="lazy"
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="bb-home__section bb-home__section--textures" aria-labelledby="bb-textures-title-{{ section.id }}">
+    <div class="bb-shell">
+      <div class="bb-home__heading-row">
+        <div>
+          <p class="bb-home__eyebrow">{{ 'braidbar.home.textures_eyebrow' | t }}</p>
+          <h2 id="bb-textures-title-{{ section.id }}">{{ 'braidbar.home.textures_title' | t }}</h2>
+        </div>
+      </div>
+      <div class="bb-home__texture-grid">
+        {% for texture_key in texture_items %}
+          {% assign texture_image_filename = texture_images[forloop.index0] %}
+          {% assign texture_image = texture_image_filename | asset_url %}
+          <a class="bb-home__texture-card bb-home__texture-card--{{ forloop.index }}" href="{{ routes.collections_url }}/wigs">
+            <img
+              src="{{ texture_image }}"
+              sizes="(min-width: 990px) 33vw, 100vw"
+              width="720"
+              height="900"
+              alt="{{ texture_key | t }}"
+              loading="lazy"
+            >
+            <span>{{ texture_key | t }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="bb-home__trust" aria-label="{{ 'braidbar.home.trust_heading' | t }}">
+    <div class="bb-shell bb-home__trust-grid">
+      <div><strong>{{ 'braidbar.home.trust_portugal_title' | t }}</strong><span>{{ 'braidbar.home.trust_portugal_text' | t }}</span></div>
+      <div><strong>{{ 'braidbar.home.trust_booking_title' | t }}</strong><span>{{ 'braidbar.home.trust_booking_text' | t }}</span></div>
+      <div><strong>{{ 'braidbar.home.trust_language_title' | t }}</strong><span>{{ 'braidbar.home.trust_language_text' | t }}</span></div>
+      <div><strong>{{ 'braidbar.home.trust_checkout_title' | t }}</strong><span>{{ 'braidbar.home.trust_checkout_text' | t }}</span></div>
+    </div>
+  </section>
+</div>
+
+{% stylesheet %}
+  .bb-home {
+    width: 100%;
+    max-width: 100%;
+    color: var(--bb-ink, #181010);
+    background: var(--bb-cream, #f7f2ed);
+    overflow: clip;
+  }
+
+  .bb-home__hero {
+    min-height: clamp(560px, 68vw, 760px);
+    position: relative;
+    display: grid;
+    align-items: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .bb-home__hero-image,
+  .bb-home__hero-shade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .bb-home__hero-image {
+    z-index: -2;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .bb-home__hero-shade {
+    z-index: -1;
+    background: linear-gradient(90deg, rgb(232 222 213 / 96%) 0%, rgb(232 222 213 / 78%) 38%, transparent 66%);
+  }
+
+  .bb-home__hero-inner {
+    width: 100%;
+  }
+
+  .bb-home__hero-copy {
+    width: min(50%, 620px);
+    padding-block: 80px;
+  }
+
+  .bb-home__eyebrow {
+    margin: 0 0 14px;
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .bb-home h1,
+  .bb-home h2,
+  .bb-home__empty-state h3 {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+  }
+
+  .bb-home h1 {
+    margin: 0;
+    font-size: clamp(3.75rem, 7vw, 7rem);
+    line-height: 0.86;
+  }
+
+  .bb-home h2 {
+    margin: 0;
+    font-size: clamp(2.4rem, 4.3vw, 4.75rem);
+    line-height: 0.98;
+  }
+
+  .bb-home__lead {
+    max-width: 40ch;
+    margin: 24px 0 0;
+    font-size: clamp(0.875rem, 1.25vw, 1rem);
+    line-height: 1.7;
+  }
+
+  .bb-home__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-block-start: 28px;
+  }
+
+  .bb-home__button {
+    min-width: 172px;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border: 1px solid var(--bb-dark, #201810);
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.11em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .bb-home__button--primary {
+    color: #fff;
+    background: var(--bb-dark, #201810);
+  }
+
+  .bb-home__button--secondary {
+    color: var(--bb-dark, #201810);
+    background: transparent;
+  }
+
+  .bb-home__button:hover,
+  .bb-home__button:focus-visible {
+    color: #fff;
+    background: var(--bb-mocha, #a89888);
+    border-color: var(--bb-mocha, #a89888);
+  }
+
+  .bb-home__section {
+    padding-block: clamp(58px, 8vw, 112px);
+  }
+
+  .bb-home__section--collections,
+  .bb-home__section--textures {
+    background: #eee5de;
+  }
+
+  .bb-home__heading-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-block-end: clamp(28px, 4vw, 48px);
+  }
+
+  .bb-home__heading-row > a {
+    flex: 0 0 auto;
+    color: inherit;
+    font-size: 0.6875rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .bb-home__collection-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(10px, 1.5vw, 22px);
+  }
+
+  @media (min-width: 1500px) {
+    .bb-home__hero-copy {
+      width: min(46%, 620px);
+    }
+  }
+
+  .bb-home__collection-card {
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .bb-home__collection-media {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--bb-soft-taupe, #b8a8a8);
+  }
+
+  .bb-home__collection-media img,
+  .bb-home__product-media img,
+  .bb-home__booking-media img,
+  .bb-home__texture-card img,
+  .bb-home__empty-state > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 450ms ease;
+  }
+
+  .bb-home__collection-media img {
+    object-position: center;
+  }
+
+  .bb-home__collection-card:hover img,
+  .bb-home__collection-card:focus-visible img,
+  .bb-home__product-card a:hover img,
+  .bb-home__product-card a:focus-visible img,
+  .bb-home__texture-card:hover img,
+  .bb-home__texture-card:focus-visible img {
+    transform: scale(1.035);
+  }
+
+  .bb-home__collection-card > span {
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .bb-home__collection-card > span::after {
+    content: '→';
+  }
+
+  .bb-home__product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(12px, 2vw, 26px);
+  }
+
+  .bb-home__product-card {
+    min-width: 0;
+    background: #fff;
+    border: 1px solid rgb(24 16 16 / 12%);
+  }
+
+  .bb-home__product-card a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .bb-home__product-media {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #eee5de;
+  }
+
+  .bb-home__product-copy {
+    padding: 18px;
+  }
+
+  .bb-home__product-copy h3,
+  .bb-home__product-copy p {
+    margin: 0;
+    font-size: 0.8125rem;
+  }
+
+  .bb-home__product-copy h3 {
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .bb-home__product-copy p {
+    margin-block-start: 6px;
+    opacity: 0.68;
+  }
+
+  .bb-home__empty-state {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(260px, 1.1fr);
+    align-items: center;
+    gap: clamp(28px, 6vw, 88px);
+    background: #eee5de;
+  }
+
+  .bb-home__empty-state > img {
+    aspect-ratio: 1;
+  }
+
+  .bb-home__empty-state > div {
+    padding: clamp(24px, 5vw, 72px) clamp(24px, 5vw, 72px) clamp(24px, 5vw, 72px) 0;
+  }
+
+  .bb-home__empty-state h3 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 4rem);
+    line-height: 1;
+  }
+
+  .bb-home__empty-state p:not(.bb-home__eyebrow) {
+    max-width: 46ch;
+    margin-block: 20px 28px;
+    line-height: 1.7;
+  }
+
+  .bb-home__booking {
+    background: var(--bb-taupe, #b0a8a0);
+  }
+
+  .bb-home__booking-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+    align-items: stretch;
+    gap: clamp(28px, 6vw, 96px);
+    padding-block: clamp(58px, 8vw, 112px);
+  }
+
+  .bb-home__booking-copy {
+    align-self: center;
+  }
+
+  .bb-home__booking-copy p:not(.bb-home__eyebrow) {
+    max-width: 48ch;
+    margin-block: 22px 28px;
+    line-height: 1.7;
+  }
+
+  .bb-home__booking-media {
+    min-height: 380px;
+    overflow: hidden;
+  }
+
+  .bb-home__booking-media img {
+    object-position: center;
+  }
+
+  .bb-home__texture-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(12px, 2vw, 28px);
+  }
+
+  .bb-home__texture-card {
+    min-width: 0;
+    aspect-ratio: 4 / 5;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    background: var(--bb-dark, #201810);
+    text-decoration: none;
+  }
+
+  .bb-home__texture-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgb(24 16 16 / 72%), transparent 55%);
+  }
+
+  .bb-home__texture-card img {
+    object-position: center;
+  }
+
+  .bb-home__texture-card span {
+    position: absolute;
+    z-index: 1;
+    inset-inline: 24px;
+    inset-block-end: 22px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+  }
+
+  .bb-home__trust {
+    background: #dfd3ca;
+  }
+
+  .bb-home__trust-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding-block: 32px;
+  }
+
+  .bb-home__trust-grid > div {
+    min-width: 0;
+    padding-inline: clamp(14px, 2vw, 28px);
+    border-inline-end: 1px solid rgb(24 16 16 / 14%);
+  }
+
+  .bb-home__trust-grid > div:first-child {
+    padding-inline-start: 0;
+  }
+
+  .bb-home__trust-grid > div:last-child {
+    padding-inline-end: 0;
+    border: 0;
+  }
+
+  .bb-home__trust strong,
+  .bb-home__trust span {
+    display: block;
+  }
+
+  .bb-home__trust strong {
+    margin-block-end: 5px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .bb-home__trust span {
+    font-size: 0.75rem;
+    line-height: 1.45;
+    opacity: 0.66;
+  }
+
+  @media (max-width: 989px) {
+    .bb-home__hero {
+      min-height: 640px;
+      align-items: end;
+    }
+
+    .bb-home__hero-image {
+      object-position: 88% center;
+    }
+
+    .bb-home__hero-shade {
+      background: linear-gradient(0deg, rgb(232 222 213 / 97%) 0%, rgb(232 222 213 / 78%) 44%, rgb(232 222 213 / 12%) 78%);
+    }
+
+    .bb-home__hero-copy {
+      width: min(100%, 620px);
+      padding-block: 220px 48px;
+    }
+
+    .bb-home__collection-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .bb-home__product-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .bb-home__trust-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px 0;
+    }
+
+    .bb-home__trust-grid > div:nth-child(2) {
+      border: 0;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .bb-home__hero {
+      min-height: 590px;
+    }
+
+    .bb-home__hero-copy {
+      padding-block: 240px 38px;
+    }
+
+    .bb-home h1 {
+      font-size: clamp(3.1rem, 15vw, 4.6rem);
+    }
+
+    .bb-home__actions,
+    .bb-home__button {
+      width: 100%;
+    }
+
+    .bb-home__heading-row {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .bb-home__collection-grid {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(72vw, 1fr);
+      grid-template-columns: none;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scroll-snap-type: inline mandatory;
+      padding-block-end: 12px;
+    }
+
+    .bb-home__collection-card {
+      scroll-snap-align: start;
+    }
+
+    .bb-home__empty-state,
+    .bb-home__booking-grid,
+    .bb-home__texture-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .bb-home__empty-state > div {
+      padding: 28px 22px 34px;
+    }
+
+    .bb-home__booking-media {
+      min-height: 0;
+      aspect-ratio: 1;
+      order: -1;
+    }
+
+    .bb-home__texture-card {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .bb-home__product-grid,
+    .bb-home__trust-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .bb-home__trust-grid > div,
+    .bb-home__trust-grid > div:first-child,
+    .bb-home__trust-grid > div:last-child {
+      padding: 0 0 18px;
+      border: 0;
+      border-block-end: 1px solid rgb(24 16 16 / 14%);
+    }
+
+    .bb-home__trust-grid > div:last-child {
+      padding: 0;
+      border: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bb-home img {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BRAIDBAR home",
+  "settings": [],
+  "presets": [
+    {
+      "name": "BRAIDBAR home"
+    }
+  ]
+}
+{% endschema %}

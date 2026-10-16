@@ -1,0 +1,232 @@
+{% assign faq_items = 'delivery_area|delivery_timing|product_details|choosing_style|booking|braiding_included|preparation|extension_colour|confirmation|own_wig|languages|returns|help' | split: '|' %}
+
+<div class="bb-faqs">
+  <section class="bb-faqs__hero" aria-labelledby="bb-faqs-title-{{ section.id }}">
+    <div class="bb-shell bb-faqs__hero-inner">
+      <p class="bb-faqs__eyebrow">{{ 'braidbar.faqs.eyebrow' | t }}</p>
+      <h1 id="bb-faqs-title-{{ section.id }}">{{ 'braidbar.faqs.title' | t }}</h1>
+      <p>{{ 'braidbar.faqs.intro' | t }}</p>
+    </div>
+  </section>
+
+  <section class="bb-shell bb-faqs__content" aria-label="{{ 'braidbar.faqs.title' | t }}">
+    <div class="bb-faqs__list">
+      {% for item in faq_items %}
+        {% assign question_key = 'braidbar.faqs.' | append: item | append: '_question' %}
+        {% assign answer_key = 'braidbar.faqs.' | append: item | append: '_answer' %}
+        <details class="bb-faqs__item"{% if forloop.first %} open{% endif %}>
+          <summary>
+            <span>{{ question_key | t }}</span>
+            <span class="bb-faqs__icon" aria-hidden="true"></span>
+          </summary>
+          <div class="bb-faqs__answer rte">
+            <p>{{ answer_key | t }}</p>
+          </div>
+        </details>
+      {% endfor %}
+    </div>
+
+    <aside class="bb-faqs__contact">
+      <p class="bb-faqs__eyebrow">{{ 'braidbar.faqs.contact_eyebrow' | t }}</p>
+      <h2>{{ 'braidbar.faqs.contact_title' | t }}</h2>
+      <p>{{ 'braidbar.faqs.contact_text' | t }}</p>
+      <a href="/pages/book-appointment">{{ 'braidbar.faqs.contact_button' | t }}</a>
+    </aside>
+  </section>
+</div>
+
+{% stylesheet %}
+  .bb-faqs,
+  .bb-faqs *,
+  .bb-faqs *::before,
+  .bb-faqs *::after {
+    box-sizing: border-box;
+  }
+
+  .bb-faqs {
+    color: var(--bb-ink, #181010);
+    background: var(--bb-cream, #f7f2ed);
+  }
+
+  .bb-faqs__hero {
+    background: #eee5de;
+  }
+
+  .bb-faqs__hero-inner {
+    padding-block: clamp(58px, 8vw, 112px);
+  }
+
+  .bb-faqs__hero h1,
+  .bb-faqs__contact h2 {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+  }
+
+  .bb-faqs__hero h1 {
+    max-width: 12ch;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: 0.92;
+  }
+
+  .bb-faqs__hero-inner > p:last-child {
+    max-width: 56ch;
+    margin: 24px 0 0;
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+    line-height: 1.7;
+  }
+
+  .bb-faqs__eyebrow {
+    margin: 0 0 14px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .bb-faqs__content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
+    align-items: start;
+    gap: clamp(36px, 7vw, 108px);
+    padding-block: clamp(58px, 8vw, 112px);
+  }
+
+  .bb-faqs__item {
+    border-block-end: 1px solid rgb(24 16 16 / 18%);
+  }
+
+  .bb-faqs__item:first-child {
+    border-block-start: 1px solid rgb(24 16 16 / 18%);
+  }
+
+  .bb-faqs__item summary {
+    min-height: 74px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 24px;
+    align-items: center;
+    gap: 24px;
+    padding-block: 18px;
+    cursor: pointer;
+    list-style: none;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    line-height: 1.35;
+  }
+
+  .bb-faqs__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .bb-faqs__icon {
+    width: 18px;
+    height: 18px;
+    position: relative;
+  }
+
+  .bb-faqs__icon::before,
+  .bb-faqs__icon::after {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 16px;
+    height: 1px;
+    background: currentcolor;
+    transform: translate(-50%, -50%);
+    transition: transform 220ms ease;
+  }
+
+  .bb-faqs__icon::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .bb-faqs__item[open] .bb-faqs__icon::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .bb-faqs__answer {
+    max-width: 68ch;
+    padding: 0 48px 26px 0;
+    line-height: 1.75;
+    opacity: 0.76;
+  }
+
+  .bb-faqs__answer p {
+    margin: 0;
+  }
+
+  .bb-faqs__contact {
+    position: sticky;
+    inset-block-start: 150px;
+    padding: clamp(28px, 4vw, 48px);
+    background: var(--bb-taupe, #b0a8a0);
+  }
+
+  .bb-faqs__contact h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1;
+  }
+
+  .bb-faqs__contact > p:not(.bb-faqs__eyebrow) {
+    margin-block: 20px 26px;
+    line-height: 1.7;
+  }
+
+  .bb-faqs__contact a {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    color: #fff;
+    background: var(--bb-dark, #201810);
+    border: 1px solid var(--bb-dark, #201810);
+    font-size: 0.6875rem;
+    letter-spacing: 0.11em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 899px) {
+    .bb-faqs__content {
+      grid-template-columns: 1fr;
+    }
+
+    .bb-faqs__contact {
+      position: static;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .bb-faqs__item summary {
+      min-height: 68px;
+      gap: 16px;
+    }
+
+    .bb-faqs__answer {
+      padding-inline-end: 28px;
+    }
+
+    .bb-faqs__contact a {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bb-faqs__icon::before,
+    .bb-faqs__icon::after {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BRAIDBAR FAQs",
+  "settings": [],
+  "presets": [
+    {
+      "name": "BRAIDBAR FAQs"
+    }
+  ]
+}
+{% endschema %}

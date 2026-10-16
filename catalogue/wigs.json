@@ -1,0 +1,86 @@
+{
+  "currency": "EUR",
+  "vendor": "BRAIDBAR",
+  "products": [
+    {
+      "handle": "32-inch-black-jerry-curl-13x6-frontal-wig",
+      "title": "32” Black Jerry Curl 13×6 Frontal Wig",
+      "price": "300.00",
+      "hair_type": null,
+      "hair_quality": null,
+      "style": "Jerry Curl",
+      "colour": "Black",
+      "length_inches": 32,
+      "lace_type": "13×6 Frontal",
+      "weight_grams": 280,
+      "images": [
+        "images/32-inch-jerry-curl-front.png",
+        "images/32-inch-jerry-curl-angle.png"
+      ]
+    },
+    {
+      "handle": "24-inch-black-deep-wave-5x5-closure-wig",
+      "title": "24” Black Deep Wave 5×5 Closure Wig",
+      "price": "130.00",
+      "hair_type": "100% Human Hair",
+      "hair_quality": null,
+      "style": "Deep Wave",
+      "colour": "Black",
+      "length_inches": 24,
+      "lace_type": "5×5 Closure",
+      "weight_grams": 200,
+      "images": [
+        "images/24-inch-deep-wave.jpeg"
+      ]
+    },
+    {
+      "handle": "16-inch-black-bone-straight-hd-closure-wig",
+      "title": "16” Black Bone Straight HD Closure Wig",
+      "price": "190.00",
+      "hair_type": "SDD Raw Hair",
+      "hair_quality": "SDD",
+      "style": "Bone Straight",
+      "colour": "Black",
+      "length_inches": 16,
+      "lace_type": "5×5 HD Closure",
+      "weight_grams": 250,
+      "images": [
+        "images/16-inch-bone-straight-front.jpeg",
+        "images/16-inch-bone-straight-angle.jpeg"
+      ]
+    },
+    {
+      "handle": "24-inch-black-body-wave-sdd-vietnamese-wig",
+      "title": "24” Black Body Wave SDD Vietnamese Hair Wig",
+      "price": "360.00",
+      "hair_type": "SDD Vietnamese Hair",
+      "hair_quality": "SDD",
+      "style": "Body Wave",
+      "colour": "Black",
+      "length_inches": 24,
+      "lace_type": "5×5 Closure",
+      "weight_grams": 300,
+      "images": [
+        "images/24-inch-body-wave-front.jpeg",
+        "images/24-inch-body-wave-angle.jpeg"
+      ]
+    },
+    {
+      "handle": "14-inch-chestnut-sdd-human-hair-wig",
+      "title": "14” Chestnut SDD 100% Human Hair Wig",
+      "price": "150.00",
+      "hair_type": "100% Human Hair",
+      "hair_quality": "SDD",
+      "style": "Straight",
+      "colour": "Chestnut",
+      "length_inches": 14,
+      "lace_type": "5×5 Closure",
+      "weight_grams": 250,
+      "images": [
+        "images/14-inch-chestnut-front.jpeg",
+        "images/14-inch-chestnut-angle.jpeg"
+      ]
+    }
+  ],
+  "additional_editorial_image": "images/bone-straight-bob-editorial.jpeg"
+}

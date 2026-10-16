@@ -1,0 +1,318 @@
+<div class="bb-about">
+  <section class="bb-about__hero" aria-labelledby="bb-about-title-{{ section.id }}">
+    <div class="bb-shell bb-about__hero-grid">
+      <div class="bb-about__hero-copy">
+        <p class="bb-about__eyebrow">{{ 'braidbar.about.eyebrow' | t }}</p>
+        <h1 id="bb-about-title-{{ section.id }}">{{ 'braidbar.about.title' | t }}</h1>
+        <p class="bb-about__lead">{{ 'braidbar.about.lead' | t }}</p>
+        <a class="bb-about__button" href="{{ pages['book-appointment'].url }}">{{ 'braidbar.about.book' | t }}</a>
+      </div>
+      <div class="bb-about__hero-media">
+        <img
+          src="https://cdn.shopify.com/s/files/1/1017/9035/1673/files/braidbar-salon-appointment.png?v=1791814286&width=1000"
+          srcset="https://cdn.shopify.com/s/files/1/1017/9035/1673/files/braidbar-salon-appointment.png?v=1791814286&width=540 540w, https://cdn.shopify.com/s/files/1/1017/9035/1673/files/braidbar-salon-appointment.png?v=1791814286&width=800 800w, https://cdn.shopify.com/s/files/1/1017/9035/1673/files/braidbar-salon-appointment.png?v=1791814286&width=1000 1000w"
+          sizes="(min-width: 990px) 48vw, 100vw"
+          width="1000"
+          height="1250"
+          alt="{{ 'braidbar.about.hero_alt' | t }}"
+          fetchpriority="high"
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="bb-about__story" aria-labelledby="bb-about-story-{{ section.id }}">
+    <div class="bb-shell bb-about__story-grid">
+      <div class="bb-about__story-media">
+        <img
+          src="https://cdn.shopify.com/s/files/1/1017/9035/1673/files/espresso-body-wave-wig.png?v=1791814237&width=900"
+          srcset="https://cdn.shopify.com/s/files/1/1017/9035/1673/files/espresso-body-wave-wig.png?v=1791814237&width=540 540w, https://cdn.shopify.com/s/files/1/1017/9035/1673/files/espresso-body-wave-wig.png?v=1791814237&width=720 720w, https://cdn.shopify.com/s/files/1/1017/9035/1673/files/espresso-body-wave-wig.png?v=1791814237&width=900 900w"
+          sizes="(min-width: 990px) 42vw, 100vw"
+          width="900"
+          height="1125"
+          alt="{{ 'braidbar.about.story_alt' | t }}"
+          loading="lazy"
+        >
+      </div>
+      <div class="bb-about__story-copy">
+        <p class="bb-about__eyebrow">{{ 'braidbar.about.story_eyebrow' | t }}</p>
+        <h2 id="bb-about-story-{{ section.id }}">{{ 'braidbar.about.story_title' | t }}</h2>
+        <p>{{ 'braidbar.about.story_text_one' | t }}</p>
+        <p>{{ 'braidbar.about.story_text_two' | t }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bb-about__values" aria-labelledby="bb-about-values-{{ section.id }}">
+    <div class="bb-shell">
+      <p class="bb-about__eyebrow">{{ 'braidbar.about.values_eyebrow' | t }}</p>
+      <h2 id="bb-about-values-{{ section.id }}">{{ 'braidbar.about.values_title' | t }}</h2>
+      <div class="bb-about__value-grid">
+        <article>
+          <span>01</span>
+          <h3>{{ 'braidbar.about.value_one_title' | t }}</h3>
+          <p>{{ 'braidbar.about.value_one_text' | t }}</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>{{ 'braidbar.about.value_two_title' | t }}</h3>
+          <p>{{ 'braidbar.about.value_two_text' | t }}</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>{{ 'braidbar.about.value_three_title' | t }}</h3>
+          <p>{{ 'braidbar.about.value_three_text' | t }}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="bb-about__cta">
+    <div class="bb-shell bb-about__cta-inner">
+      <div>
+        <p class="bb-about__eyebrow">{{ 'braidbar.about.cta_eyebrow' | t }}</p>
+        <h2>{{ 'braidbar.about.cta_title' | t }}</h2>
+      </div>
+      <div>
+        <p>{{ 'braidbar.about.cta_text' | t }}</p>
+        <div class="bb-about__actions">
+          <a class="bb-about__button" href="{{ routes.collections_url }}/wigs">{{ 'braidbar.about.shop' | t }}</a>
+          <a class="bb-about__text-link" href="{{ pages['book-appointment'].url }}">{{ 'braidbar.about.book' | t }} →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% stylesheet %}
+  .bb-about {
+    color: var(--bb-ink, #181010);
+    background: var(--bb-cream, #f7f2ed);
+    overflow: clip;
+  }
+
+  .bb-about__hero {
+    padding-block: clamp(44px, 7vw, 104px);
+  }
+
+  .bb-about__hero-grid,
+  .bb-about__story-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    align-items: center;
+    gap: clamp(36px, 7vw, 112px);
+  }
+
+  .bb-about__hero-copy,
+  .bb-about__story-copy {
+    min-width: 0;
+  }
+
+  .bb-about__eyebrow {
+    margin: 0 0 14px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .bb-about h1,
+  .bb-about h2 {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+  }
+
+  .bb-about h1 {
+    max-width: 8ch;
+    font-size: clamp(3.5rem, 7vw, 7.5rem);
+    line-height: 0.9;
+  }
+
+  .bb-about h2 {
+    font-size: clamp(2.5rem, 4.8vw, 5.25rem);
+    line-height: 0.98;
+  }
+
+  .bb-about__lead,
+  .bb-about__story-copy > p:not(.bb-about__eyebrow),
+  .bb-about__cta-inner > div:last-child > p {
+    max-width: 48ch;
+    font-size: clamp(0.9375rem, 1.2vw, 1.0625rem);
+    line-height: 1.75;
+  }
+
+  .bb-about__lead {
+    margin-block: 28px 32px;
+  }
+
+  .bb-about__button {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 22px;
+    color: #fff;
+    background: var(--bb-dark, #201810);
+    border: 1px solid var(--bb-dark, #201810);
+    font-size: 0.6875rem;
+    letter-spacing: 0.11em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .bb-about__button:hover,
+  .bb-about__button:focus-visible {
+    background: var(--bb-mocha, #a89888);
+    border-color: var(--bb-mocha, #a89888);
+  }
+
+  .bb-about__hero-media,
+  .bb-about__story-media {
+    overflow: hidden;
+    background: var(--bb-soft-taupe, #b8a8a8);
+  }
+
+  .bb-about__hero-media {
+    aspect-ratio: 4 / 5;
+  }
+
+  .bb-about__story-media {
+    aspect-ratio: 4 / 5;
+  }
+
+  .bb-about__hero-media img,
+  .bb-about__story-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bb-about__story {
+    padding-block: clamp(64px, 9vw, 132px);
+    background: #eee5de;
+  }
+
+  .bb-about__story-grid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  }
+
+  .bb-about__story-copy > p:not(.bb-about__eyebrow) {
+    margin: 24px 0 0;
+  }
+
+  .bb-about__values {
+    padding-block: clamp(64px, 9vw, 124px);
+  }
+
+  .bb-about__values > .bb-shell > h2 {
+    max-width: 11ch;
+  }
+
+  .bb-about__value-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(18px, 3vw, 36px);
+    margin-block-start: clamp(36px, 6vw, 72px);
+  }
+
+  .bb-about__value-grid article {
+    min-width: 0;
+    padding: clamp(24px, 3vw, 40px);
+    background: #fff;
+    border-block-start: 2px solid var(--bb-mocha, #a89888);
+  }
+
+  .bb-about__value-grid span {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 2rem;
+    opacity: 0.45;
+  }
+
+  .bb-about__value-grid h3 {
+    margin: 34px 0 12px;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+    font-weight: 400;
+  }
+
+  .bb-about__value-grid p {
+    margin: 0;
+    line-height: 1.65;
+    opacity: 0.72;
+  }
+
+  .bb-about__cta {
+    padding-block: clamp(56px, 8vw, 104px);
+    background: var(--bb-taupe, #b0a8a0);
+  }
+
+  .bb-about__cta-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.75fr);
+    align-items: end;
+    gap: clamp(32px, 7vw, 112px);
+  }
+
+  .bb-about__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 22px;
+    margin-block-start: 26px;
+  }
+
+  .bb-about__text-link {
+    color: inherit;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 849px) {
+    .bb-about__hero-grid,
+    .bb-about__story-grid,
+    .bb-about__cta-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .bb-about__hero-copy {
+      padding-block-end: 8px;
+    }
+
+    .bb-about__story-media {
+      order: 2;
+    }
+
+    .bb-about__value-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 499px) {
+    .bb-about h1 {
+      font-size: clamp(3.25rem, 17vw, 4.5rem);
+    }
+
+    .bb-about__button {
+      width: 100%;
+    }
+
+    .bb-about__actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BRAIDBAR about",
+  "settings": [],
+  "presets": [
+    {
+      "name": "BRAIDBAR about"
+    }
+  ]
+}
+{% endschema %}

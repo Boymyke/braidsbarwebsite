@@ -1,0 +1,11 @@
+{
+  "type": "footer",
+  "name": "t:names.footer",
+  "sections": {
+    "braidbar_footer": {
+      "type": "braidbar-footer",
+      "settings": {}
+    }
+  },
+  "order": ["braidbar_footer"]
+}
