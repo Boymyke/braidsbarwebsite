@@ -1,0 +1,75 @@
+{% comment %}
+  Collection title and description aligned to the shared BRAIDBAR shell.
+  @example
+  <!-- Used by templates/collection.json -->
+{% endcomment %}
+
+<header class="bb-collection-header">
+  <div class="bb-shell">
+    <p class="bb-collection-header__eyebrow">{{ 'braidbar.collections.eyebrow' | t }}</p>
+    <h1>{{ collection.title | escape }}</h1>
+    {% if collection.description != blank %}
+      <div class="bb-collection-header__description rte">
+        {{ collection.description }}
+      </div>
+    {% endif %}
+  </div>
+</header>
+
+{% stylesheet %}
+  .bb-collection-header {
+    color: var(--bb-ink, #181010);
+    background: var(--bb-cream, #f7f2ed);
+    padding-block: clamp(44px, 6vw, 88px) clamp(30px, 4vw, 56px);
+  }
+
+  .bb-collection-header__eyebrow {
+    margin: 0 0 14px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .bb-collection-header h1 {
+    max-width: 14ch;
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(3rem, 6vw, 6.5rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+  }
+
+  .bb-collection-header__description {
+    max-width: 62ch;
+    margin-block-start: 22px;
+    font-size: clamp(1rem, 1.25vw, 1.125rem);
+    line-height: 1.7;
+  }
+
+  .bb-collection-header__description > :first-child {
+    margin-block-start: 0;
+  }
+
+  .bb-collection-header__description > :last-child {
+    margin-block-end: 0;
+  }
+
+  @media (max-width: 749px) {
+    .bb-collection-header {
+      padding-block: 36px 28px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BRAIDBAR collection header",
+  "settings": [],
+  "presets": [
+    {
+      "name": "BRAIDBAR collection header"
+    }
+  ]
+}
+{% endschema %}

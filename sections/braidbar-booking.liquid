@@ -1,6 +1,30 @@
 {% liquid
   assign service_keys = 'braidbar.booking.service_knotless_box|braidbar.booking.service_small_knotless|braidbar.booking.service_medium_knotless|braidbar.booking.service_large_knotless|braidbar.booking.service_box|braidbar.booking.service_small_box|braidbar.booking.service_medium_box|braidbar.booking.service_large_box|braidbar.booking.service_jumbo_box|braidbar.booking.service_boho_knotless|braidbar.booking.service_boho_box|braidbar.booking.service_fulani|braidbar.booking.service_fulani_knotless|braidbar.booking.service_lemonade|braidbar.booking.service_goddess|braidbar.booking.service_goddess_knotless|braidbar.booking.service_french_curl|braidbar.booking.service_cornrows|braidbar.booking.service_simple_cornrows|braidbar.booking.service_stitch_cornrows|braidbar.booking.service_feed_in_cornrows|braidbar.booking.service_cornrows_extensions|braidbar.booking.service_braided_ponytail' | split: '|'
   assign service_prices = '65|85|75|60|65|85|70|55|50|90|85|75|85|65|80|90|85|35|30|45|50|55|60' | split: '|'
+  capture available_day_numbers
+    if section.settings.available_sunday
+      echo '0,'
+    endif
+    if section.settings.available_monday
+      echo '1,'
+    endif
+    if section.settings.available_tuesday
+      echo '2,'
+    endif
+    if section.settings.available_wednesday
+      echo '3,'
+    endif
+    if section.settings.available_thursday
+      echo '4,'
+    endif
+    if section.settings.available_friday
+      echo '5,'
+    endif
+    if section.settings.available_saturday
+      echo '6,'
+    endif
+  endcapture
+  assign available_day_numbers = available_day_numbers | strip_newlines | replace: ' ', ''
 %}
 
 <section class="bb-booking" aria-labelledby="bb-booking-page-title-{{ section.id }}">
@@ -46,19 +70,42 @@
       <div class="bb-booking__form-card">
         {% form 'contact', class: 'bb-booking__form' %}
           {% if form.posted_successfully? %}
-            <div class="bb-booking__success" role="status" tabindex="-1">
+            <div class="bb-booking__success" role="status" aria-live="polite" tabindex="-1">
               {{ 'braidbar.booking.success' | t }}
             </div>
           {% endif %}
 
           {% if form.errors %}
-            <div class="bb-booking__errors" role="alert">
+            <div class="bb-booking__errors" role="alert" aria-live="assertive" tabindex="-1">
               {{ form.errors | default_errors }}
             </div>
           {% endif %}
 
           <input type="hidden" name="contact[Request type]" value="Hair braiding appointment">
           <input class="bb-booking__price-input" type="hidden" name="contact[Service price]" value="">
+          <input type="hidden" name="contact[Store availability]" value="{{ available_day_numbers | strip }} {{ section.settings.opening_time }}–{{ section.settings.closing_time }}">
+
+          <div class="bb-booking__availability">
+            <p class="bb-booking__availability-title">{{ 'braidbar.booking.availability_title' | t }}</p>
+            <p>{{ 'braidbar.booking.availability_intro' | t }}</p>
+            <ul aria-label="{{ 'braidbar.booking.availability_title' | t }}">
+              {% if section.settings.available_monday %}<li>{{ 'braidbar.booking.day_monday' | t }}</li>{% endif %}
+              {% if section.settings.available_tuesday %}<li>{{ 'braidbar.booking.day_tuesday' | t }}</li>{% endif %}
+              {% if section.settings.available_wednesday %}<li>{{ 'braidbar.booking.day_wednesday' | t }}</li>{% endif %}
+              {% if section.settings.available_thursday %}<li>{{ 'braidbar.booking.day_thursday' | t }}</li>{% endif %}
+              {% if section.settings.available_friday %}<li>{{ 'braidbar.booking.day_friday' | t }}</li>{% endif %}
+              {% if section.settings.available_saturday %}<li>{{ 'braidbar.booking.day_saturday' | t }}</li>{% endif %}
+              {% if section.settings.available_sunday %}<li>{{ 'braidbar.booking.day_sunday' | t }}</li>{% endif %}
+            </ul>
+            {% if available_day_numbers == blank %}
+              <p class="bb-booking__availability-hours">{{ 'braidbar.booking.no_availability' | t }}</p>
+            {% endif %}
+            {% if section.settings.opening_time != blank and section.settings.closing_time != blank %}
+              <p class="bb-booking__availability-hours">
+                {{ 'braidbar.booking.availability_hours' | t: opening: section.settings.opening_time, closing: section.settings.closing_time }}
+              </p>
+            {% endif %}
+          </div>
 
           <div class="bb-booking__fields">
             <div class="bb-booking__field">
@@ -104,12 +151,29 @@
 
             <div class="bb-booking__field">
               <label for="bb-date-{{ section.id }}">{{ 'braidbar.booking.preferred_date' | t }}</label>
-              <input id="bb-date-{{ section.id }}" type="date" name="contact[Preferred date]" min="{{ 'now' | date: '%Y-%m-%d' }}" required>
+              <input
+                class="bb-booking__date-input"
+                id="bb-date-{{ section.id }}"
+                type="date"
+                name="contact[Preferred date]"
+                min="{{ 'now' | date: '%Y-%m-%d' }}"
+                data-available-days="{{ available_day_numbers | strip }}"
+                data-unavailable-message="{{ 'braidbar.booking.unavailable_day' | t | escape }}"
+                required
+              >
+              <p class="bb-booking__field-message" aria-live="polite"></p>
             </div>
 
             <div class="bb-booking__field">
               <label for="bb-time-{{ section.id }}">{{ 'braidbar.booking.preferred_time' | t }}</label>
-              <input id="bb-time-{{ section.id }}" type="time" name="contact[Preferred time]" required>
+              <input
+                id="bb-time-{{ section.id }}"
+                type="time"
+                name="contact[Preferred time]"
+                {% if section.settings.opening_time != blank %}min="{{ section.settings.opening_time | escape }}"{% endif %}
+                {% if section.settings.closing_time != blank %}max="{{ section.settings.closing_time | escape }}"{% endif %}
+                required
+              >
             </div>
 
             <div class="bb-booking__field bb-booking__field--full">
@@ -282,6 +346,44 @@
     background: #fff0f0;
   }
 
+  .bb-booking__availability {
+    margin-block-end: 22px;
+    padding: 16px;
+    background: #eee5de;
+    border-inline-start: 3px solid var(--bb-mocha, #a89888);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  .bb-booking__availability p {
+    margin: 0;
+  }
+
+  .bb-booking__availability-title {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .bb-booking__availability ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .bb-booking__availability li {
+    padding: 5px 8px;
+    background: #fff;
+  }
+
+  .bb-booking__availability-hours {
+    margin-block-start: 10px !important;
+  }
+
   .bb-booking__fields {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -317,6 +419,14 @@
   .bb-booking__field textarea {
     min-height: 132px;
     resize: vertical;
+  }
+
+  .bb-booking__field-message {
+    min-height: 1.25em;
+    margin: 0;
+    color: #7d1c1c;
+    font-size: 0.75rem;
+    line-height: 1.35;
   }
 
   .bb-booking__field :is(input, select, textarea):focus-visible {
@@ -413,12 +523,105 @@
     select.addEventListener('change', updatePrice);
     updatePrice();
   });
+
+  document.querySelectorAll('.bb-booking__date-input').forEach((dateInput) => {
+    const availableDays = (dateInput.dataset.availableDays || '')
+      .split(',')
+      .filter(Boolean)
+      .map(Number);
+    const message = dateInput.closest('.bb-booking__field')?.querySelector('.bb-booking__field-message');
+
+    const validateDate = () => {
+      if (!dateInput.value) {
+        dateInput.setCustomValidity('');
+        if (message) message.textContent = '';
+        return;
+      }
+
+      const selectedDay = new Date(`${dateInput.value}T12:00:00`).getDay();
+      const isAvailable = availableDays.length > 0 && availableDays.includes(selectedDay);
+      const errorMessage = isAvailable ? '' : dateInput.dataset.unavailableMessage || '';
+      dateInput.setCustomValidity(errorMessage);
+      if (message) message.textContent = errorMessage;
+    };
+
+    dateInput.addEventListener('change', validateDate);
+    dateInput.addEventListener('input', validateDate);
+    validateDate();
+  });
+
+  document.querySelector('.bb-booking__success, .bb-booking__errors')?.focus();
 {% endjavascript %}
 
 {% schema %}
 {
   "name": "BRAIDBAR booking",
-  "settings": [],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Appointment availability"
+    },
+    {
+      "type": "paragraph",
+      "content": "Choose the days and request hours shown to customers. Requests still require manual confirmation."
+    },
+    {
+      "type": "checkbox",
+      "id": "available_monday",
+      "label": "Monday",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "available_tuesday",
+      "label": "Tuesday",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "available_wednesday",
+      "label": "Wednesday",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "available_thursday",
+      "label": "Thursday",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "available_friday",
+      "label": "Friday",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "available_saturday",
+      "label": "Saturday",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "available_sunday",
+      "label": "Sunday",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "opening_time",
+      "label": "Earliest request time",
+      "info": "Use 24-hour format, for example 09:00.",
+      "default": "09:00"
+    },
+    {
+      "type": "text",
+      "id": "closing_time",
+      "label": "Latest request time",
+      "info": "Use 24-hour format, for example 18:00.",
+      "default": "18:00"
+    }
+  ],
   "presets": [
     {
       "name": "BRAIDBAR booking"
