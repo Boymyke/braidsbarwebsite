@@ -174,6 +174,20 @@
     padding-inline: var(--bb-gutter);
   }
 
+  /* Make the base theme's sections (cart, product page, "You may also like", etc.)
+     use exactly the same page width and side margins as the BRAIDBAR sections. */
+  body[class*='page-width-'] {
+    --page-margin: max(var(--bb-gutter), var(--safe-area-inset-left, 0px), var(--safe-area-inset-right, 0px));
+    --page-content-width: calc(var(--bb-shell) - (var(--bb-gutter) * 2));
+    --page-width: calc(var(--page-content-width) + (var(--page-margin) * 2));
+  }
+
+  /* Inside a base-theme section the grid already provides the margins */
+  .section .bb-shell {
+    max-width: none;
+    padding-inline: 0;
+  }
+
   .bb-motion-ready .bb-reveal {
     opacity: 0;
     transform: translateY(18px);
@@ -615,7 +629,9 @@
        overflow on body turns it into a scroll container and
        breaks the sticky header while the menu is open. */
     html:has(.bb-site-header__mobile-menu[open]),
-    html.bb-menu-open {
+    html.bb-menu-open,
+    html:has(.bb-site-header__mobile-menu[open]) .page-wrapper,
+    html.bb-menu-open .page-wrapper {
       overflow: hidden;
     }
 

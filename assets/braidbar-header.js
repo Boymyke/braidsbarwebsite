@@ -67,7 +67,8 @@
     });
 
     window.addEventListener('resize', placePanel, { passive: true });
-    window.addEventListener('scroll', placePanel, { passive: true });
+    // Capture phase also catches scrolling inside .page-wrapper on wide screens.
+    document.addEventListener('scroll', placePanel, { passive: true, capture: true });
     window.addEventListener('orientationchange', placePanel);
 
     const onBreakpoint = () => {

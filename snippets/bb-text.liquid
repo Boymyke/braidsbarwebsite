@@ -118,6 +118,84 @@
       else
         assign bb_text = 'Lisbon, Portugal'
       endif
+    when 'booking.confirm_eyebrow'
+      if bb_pt
+        assign bb_text = 'Pedido recebido'
+      else
+        assign bb_text = 'Request received'
+      endif
+    when 'booking.confirm_title'
+      if bb_pt
+        assign bb_text = 'Obrigada! O seu pedido de marcação foi recebido.'
+      else
+        assign bb_text = 'Thank you! Your appointment request has been received.'
+      endif
+    when 'booking.confirm_text'
+      if bb_pt
+        assign bb_text = 'A BRAIDBAR vai contactá-la em breve por telefone, WhatsApp ou email para confirmar a data e a hora.'
+      else
+        assign bb_text = 'BRAIDBAR will contact you shortly by phone, WhatsApp or email to confirm your date and time.'
+      endif
+    when 'booking.confirm_step_1'
+      if bb_pt
+        assign bb_text = 'Verificamos a disponibilidade para a data e hora escolhidas.'
+      else
+        assign bb_text = 'We check availability for your chosen date and time.'
+      endif
+    when 'booking.confirm_step_2'
+      if bb_pt
+        assign bb_text = 'Confirmamos a sua marcação por WhatsApp, telefone ou email.'
+      else
+        assign bb_text = 'We confirm your appointment by WhatsApp, phone or email.'
+      endif
+    when 'booking.confirm_step_3'
+      if bb_pt
+        assign bb_text = 'Paga no salão, no dia da marcação. Nada é cobrado online.'
+      else
+        assign bb_text = 'You pay at the salon on the day. Nothing is charged online.'
+      endif
+    when 'booking.confirm_whatsapp'
+      if bb_pt
+        assign bb_text = 'Falar no WhatsApp'
+      else
+        assign bb_text = 'Message us on WhatsApp'
+      endif
+    when 'booking.confirm_again'
+      if bb_pt
+        assign bb_text = 'Fazer outro pedido'
+      else
+        assign bb_text = 'Book another appointment'
+      endif
+    when 'booking.confirm_home'
+      if bb_pt
+        assign bb_text = 'Voltar ao início'
+      else
+        assign bb_text = 'Back to home'
+      endif
+    when 'booking.note'
+      if bb_pt
+        assign bb_text = 'Sem pagamento online: paga no salão, no dia da marcação. Confirmamos cada marcação pessoalmente.'
+      else
+        assign bb_text = 'No online payment: you pay at the salon on the day. We confirm every appointment personally.'
+      endif
+    when 'booking.payment_label'
+      if bb_pt
+        assign bb_text = 'Pagamento'
+      else
+        assign bb_text = 'Payment'
+      endif
+    when 'booking.payment_value'
+      if bb_pt
+        assign bb_text = 'No salão, no dia da marcação'
+      else
+        assign bb_text = 'At the salon, on the day'
+      endif
+    when 'booking.sending'
+      if bb_pt
+        assign bb_text = 'A enviar o seu pedido…'
+      else
+        assign bb_text = 'Sending your request…'
+      endif
   endcase
 
   echo bb_text

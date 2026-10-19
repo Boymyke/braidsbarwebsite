@@ -75,21 +75,26 @@
   document.addEventListener('shopify:section:load', (event) => init(event.target));
 
   // Soft shadow under the sticky header once the page is scrolled.
+  // On wide screens the theme scrolls inside .page-wrapper instead of the window.
   const header = () => document.querySelector('.bb-site-header');
+  const scrollOffset = () => {
+    const wrapper = document.querySelector('.page-wrapper');
+    return Math.max(window.scrollY || 0, wrapper ? wrapper.scrollTop : 0);
+  };
   let ticking = false;
   const updateHeader = () => {
     ticking = false;
     const element = header();
-    if (element) element.classList.toggle('bb-site-header--scrolled', window.scrollY > 8);
+    if (element) element.classList.toggle('bb-site-header--scrolled', scrollOffset() > 8);
   };
-  window.addEventListener(
+  document.addEventListener(
     'scroll',
     () => {
       if (ticking) return;
       ticking = true;
       window.requestAnimationFrame(updateHeader);
     },
-    { passive: true }
+    { passive: true, capture: true }
   );
   updateHeader();
 })();

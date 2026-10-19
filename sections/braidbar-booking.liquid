@@ -64,6 +64,10 @@
             <dt>{{ 'braidbar.booking.confirmation_label' | t }}</dt>
             <dd>{{ 'braidbar.booking.confirmation_value' | t }}</dd>
           </div>
+          <div>
+            <dt>{% render 'bb-text', key: 'booking.payment_label' %}</dt>
+            <dd>{% render 'bb-text', key: 'booking.payment_value' %}</dd>
+          </div>
         </dl>
         <div class="bb-booking__contact">
           <p class="bb-booking__eyebrow">{% render 'bb-text', key: 'contact.heading' %}</p>
@@ -74,10 +78,31 @@
       <div class="bb-booking__form-card">
         {% form 'contact', class: 'bb-booking__form' %}
           {% if form.posted_successfully? %}
-            <div class="bb-booking__success" role="status" aria-live="polite" tabindex="-1">
-              {{ 'braidbar.booking.success' | t }}
+            <div class="bb-booking__confirmation" role="status" aria-live="polite" tabindex="-1">
+              <span class="bb-booking__confirmation-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="28" height="28"><path d="M5 12.5l4.2 4.2L19 7"></path></svg>
+              </span>
+              <p class="bb-booking__eyebrow">{% render 'bb-text', key: 'booking.confirm_eyebrow' %}</p>
+              <h2>{% render 'bb-text', key: 'booking.confirm_title' %}</h2>
+              <p class="bb-booking__confirmation-text">{% render 'bb-text', key: 'booking.confirm_text' %}</p>
+              <ol class="bb-booking__confirmation-steps">
+                <li>{% render 'bb-text', key: 'booking.confirm_step_1' %}</li>
+                <li>{% render 'bb-text', key: 'booking.confirm_step_2' %}</li>
+                <li>{% render 'bb-text', key: 'booking.confirm_step_3' %}</li>
+              </ol>
+              <div class="bb-booking__confirmation-actions">
+                <a class="bb-booking__confirmation-button bb-booking__confirmation-button--primary" href="https://wa.me/351920224758" target="_blank" rel="noopener">
+                  {%- render 'bb-text', key: 'booking.confirm_whatsapp' -%}
+                </a>
+                <a class="bb-booking__confirmation-button" href="{{ request.path }}">
+                  {%- render 'bb-text', key: 'booking.confirm_again' -%}
+                </a>
+              </div>
+              <a class="bb-booking__confirmation-home" href="{{ routes.root_url }}">
+                {%- render 'bb-text', key: 'booking.confirm_home' -%}
+              </a>
             </div>
-          {% endif %}
+          {% else %}
 
           {% if form.errors %}
             <div class="bb-booking__errors" role="alert" aria-live="assertive" tabindex="-1">
@@ -184,8 +209,15 @@
             </div>
           </div>
 
-          <button class="bb-booking__submit" type="submit">{{ 'braidbar.booking.submit' | t }}</button>
-          <p class="bb-booking__note">{{ 'braidbar.booking.note' | t }}</p>
+          <button
+            class="bb-booking__submit"
+            type="submit"
+            data-sending-label="{%- capture bb_sending -%}{%- render 'bb-text', key: 'booking.sending' -%}{%- endcapture -%}{{ bb_sending | strip | escape }}"
+          >
+            {{- 'braidbar.booking.submit' | t -}}
+          </button>
+          <p class="bb-booking__note">{% render 'bb-text', key: 'booking.note' %}</p>
+          {% endif %}
         {% endform %}
       </div>
     </div>
@@ -294,7 +326,7 @@
 
   .bb-booking__details {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px;
     margin: 34px 0 0;
   }
@@ -342,21 +374,146 @@
     box-shadow: 0 24px 70px rgb(32 24 16 / 12%);
   }
 
-  .bb-booking__success,
   .bb-booking__errors {
     margin-block-end: 22px;
     padding: 14px 16px;
     font-size: 0.875rem;
     line-height: 1.5;
-  }
-
-  .bb-booking__success {
-    background: #eee5de;
-  }
-
-  .bb-booking__errors {
     color: #7d1c1c;
     background: #fff0f0;
+    border-inline-start: 3px solid #7d1c1c;
+  }
+
+  .bb-booking__confirmation {
+    display: grid;
+    gap: 14px;
+    padding-block: 8px;
+    outline: none;
+  }
+
+  .bb-booking__confirmation-icon {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    margin-block-end: 6px;
+    color: #fff;
+    background: var(--bb-dark, #201810);
+    border-radius: 50%;
+  }
+
+  .bb-booking__confirmation-icon svg {
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .bb-booking__confirmation .bb-booking__eyebrow {
+    margin: 0;
+    color: #5c4a3d;
+  }
+
+  .bb-booking__confirmation h2 {
+    font-size: clamp(1.9rem, 3vw, 2.75rem);
+    line-height: 1.04;
+  }
+
+  .bb-booking__confirmation-text {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .bb-booking__confirmation-steps {
+    display: grid;
+    gap: 0;
+    margin: 6px 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: bb-step;
+    border-block-start: 1px solid rgb(24 16 16 / 14%);
+  }
+
+  .bb-booking__confirmation-steps li {
+    counter-increment: bb-step;
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    align-items: baseline;
+    gap: 10px;
+    padding-block: 12px;
+    border-block-end: 1px solid rgb(24 16 16 / 14%);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .bb-booking__confirmation-steps li::before {
+    content: counter(bb-step, decimal-leading-zero);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    color: #5c4a3d;
+  }
+
+  .bb-booking__confirmation-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-block-start: 8px;
+  }
+
+  .bb-booking__confirmation-button {
+    min-height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    color: var(--bb-dark, #201810);
+    background: transparent;
+    border: 1px solid var(--bb-dark, #201810);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .bb-booking__confirmation-button--primary {
+    color: #fff;
+    background: var(--bb-dark, #201810);
+  }
+
+  .bb-booking__confirmation-button:hover,
+  .bb-booking__confirmation-button:focus-visible {
+    color: #fff;
+    background: var(--bb-mocha, #a89888);
+    border-color: var(--bb-mocha, #a89888);
+  }
+
+  .bb-booking__confirmation-home {
+    justify-self: start;
+    color: inherit;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .bb-booking__confirmation > * {
+      animation: bb-rise 640ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .bb-booking__confirmation > :nth-child(2) { animation-delay: 80ms; }
+    .bb-booking__confirmation > :nth-child(3) { animation-delay: 140ms; }
+    .bb-booking__confirmation > :nth-child(4) { animation-delay: 200ms; }
+    .bb-booking__confirmation > :nth-child(5) { animation-delay: 260ms; }
+    .bb-booking__confirmation > :nth-child(6) { animation-delay: 320ms; }
+  }
+
+  .bb-booking__submit[aria-busy='true'] {
+    cursor: progress;
+    opacity: 0.8;
   }
 
   .bb-booking__availability {
@@ -517,6 +674,10 @@
     .bb-booking__form-card {
       padding: 22px 16px 26px;
     }
+
+    .bb-booking__confirmation-actions {
+      grid-template-columns: 1fr;
+    }
   }
 {% endstylesheet %}
 
@@ -563,7 +724,21 @@
     validateDate();
   });
 
-  document.querySelector('.bb-booking__success, .bb-booking__errors')?.focus();
+  document.querySelectorAll('.bb-booking__form').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      if (event.defaultPrevented || !form.checkValidity()) return;
+      const button = form.querySelector('.bb-booking__submit');
+      if (!button) return;
+      button.setAttribute('aria-busy', 'true');
+      if (button.dataset.sendingLabel) button.textContent = button.dataset.sendingLabel;
+    });
+  });
+
+  const bbBookingStatus = document.querySelector('.bb-booking__confirmation, .bb-booking__errors');
+  if (bbBookingStatus) {
+    bbBookingStatus.focus({ preventScroll: true });
+    bbBookingStatus.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }
 {% endjavascript %}
 
 {% schema %}

@@ -64,12 +64,11 @@
 {% render 'cart-items-component', children: cart_items_children, section_id: section.id %}
 
 {% stylesheet %}
+  /* The section grid supplies the page margins (matched to the BRAIDBAR
+     gutter in braidbar-header), so no extra padding here. */
   .bb-cart-shell {
     box-sizing: border-box;
     width: 100%;
-    max-width: var(--bb-shell, 1500px);
-    margin-inline: auto;
-    padding-inline: clamp(20px, 4vw, 72px);
   }
 
   .bb-cart-shell .cart-page {
@@ -140,12 +139,6 @@
           var(--sidebar-width),
           calc((100vw - var(--page-width)) / 2 + var(--sidebar-width))
         );
-    }
-  }
-
-  @media screen and (max-width: 749px) {
-    .bb-cart-shell {
-      padding-inline: 16px;
     }
   }
 
