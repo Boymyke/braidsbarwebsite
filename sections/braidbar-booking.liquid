@@ -66,7 +66,7 @@
           </div>
         </dl>
         <div class="bb-booking__contact">
-          <p class="bb-booking__eyebrow">{{ 'braidbar.contact.heading' | t }}</p>
+          <p class="bb-booking__eyebrow">{% render 'bb-text', key: 'contact.heading' %}</p>
           {% render 'bb-contact', class: 'bb-contact--inline' %}
         </div>
       </div>
@@ -196,7 +196,7 @@
   .bb-booking {
     color: var(--bb-ink, #181010);
     background: linear-gradient(145deg, #f7f2ed 0 55%, #eee5de 55% 100%);
-    padding-block: clamp(52px, 8vw, 112px);
+    padding-block: var(--bb-section-space);
   }
 
   .bb-booking__intro {

@@ -398,7 +398,7 @@
       "service_area": "Entregas e atendimento em Portugal.",
       "languages": "Apoio em Português e Inglês.",
       "checkout": "Checkout seguro através da Shopify.",
-      "location": "Lisboa, Portugal"
+      "location": "Portugal"
     },
     "home": {
       "hero_alt": "Editorial BRAIDBAR com peruca body wave de luxo",
@@ -557,30 +557,6 @@
       "notes_placeholder": "Conte-nos sobre o seu cabelo atual, o acabamento desejado, a cor preferida ou as suas dúvidas.",
       "submit": "Enviar pedido de marcação",
       "note": "Este formulário não cobra qualquer pagamento. Confirmaremos a disponibilidade e os próximos passos antes de finalizar a marcação."
-    },
-    "search": {
-      "title": "Pesquise a coleção BRAIDBAR",
-      "results_for": "Resultados para “{{ terms }}”",
-      "label": "Pesquisar produtos",
-      "placeholder": "Pesquise perucas, bundles, lace fronts…",
-      "submit": "Pesquisar",
-      "count": {
-        "one": "{{ count }} produto encontrado",
-        "other": "{{ count }} produtos encontrados"
-      },
-      "no_results": "Nenhum produto corresponde a “{{ terms }}”. Experimente uma palavra mais curta, uma textura (liso, ondulado, cacheado) ou um comprimento.",
-      "suggestions": "Também pode gostar",
-      "browse": "Ver todo o cabelo"
-    },
-    "contact": {
-      "heading": "Contacto",
-      "phone_label": "Telefone / WhatsApp",
-      "email_label": "Email",
-      "address_label": "Estúdio",
-      "whatsapp": "Falar no WhatsApp",
-      "directions": "Ver direções",
-      "call": "Ligar",
-      "email_us": "Enviar email"
     }
   }
 }

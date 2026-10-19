@@ -1,0 +1,124 @@
+{%- doc -%}
+  Small bilingual (English / Portuguese) copy for the BRAIDBAR search page
+  and contact details. Kept here so the theme's locale files stay untouched.
+
+  @param {string} key - Copy key, e.g. 'search.title'
+  @param {string} [terms] - Search terms, inserted where the copy needs them
+  @param {number} [count] - Result count, inserted where the copy needs it
+
+  @example
+  {% render 'bb-text', key: 'search.title' %}
+{%- enddoc -%}
+{%- liquid
+  assign bb_pt = false
+  if request.locale.iso_code contains 'pt'
+    assign bb_pt = true
+  endif
+  assign bb_terms = terms | escape
+  assign bb_text = ''
+
+  case key
+    when 'search.title'
+      if bb_pt
+        assign bb_text = 'Pesquise a coleção BRAIDBAR'
+      else
+        assign bb_text = 'Search the BRAIDBAR collection'
+      endif
+    when 'search.results_for'
+      if bb_pt
+        assign bb_text = 'Resultados para “' | append: bb_terms | append: '”'
+      else
+        assign bb_text = 'Results for “' | append: bb_terms | append: '”'
+      endif
+    when 'search.label'
+      if bb_pt
+        assign bb_text = 'Pesquisar produtos'
+      else
+        assign bb_text = 'Search products'
+      endif
+    when 'search.placeholder'
+      if bb_pt
+        assign bb_text = 'Pesquise perucas, bundles, lace fronts…'
+      else
+        assign bb_text = 'Search wigs, bundles, lace fronts…'
+      endif
+    when 'search.submit'
+      if bb_pt
+        assign bb_text = 'Pesquisar'
+      else
+        assign bb_text = 'Search'
+      endif
+    when 'search.count'
+      if bb_pt
+        if count == 1
+          assign bb_text = '1 produto encontrado'
+        else
+          assign bb_text = count | append: ' produtos encontrados'
+        endif
+      else
+        if count == 1
+          assign bb_text = '1 product found'
+        else
+          assign bb_text = count | append: ' products found'
+        endif
+      endif
+    when 'search.no_results'
+      if bb_pt
+        assign bb_text = 'Nenhum produto corresponde a “' | append: bb_terms | append: '”. Experimente uma palavra mais curta, uma textura (liso, ondulado, cacheado) ou um comprimento.'
+      else
+        assign bb_text = 'No products matched “' | append: bb_terms | append: '”. Try a shorter word, a texture (straight, body wave, curly) or a length.'
+      endif
+    when 'search.suggestions'
+      if bb_pt
+        assign bb_text = 'Também pode gostar'
+      else
+        assign bb_text = 'You may also like'
+      endif
+    when 'search.browse'
+      if bb_pt
+        assign bb_text = 'Ver todo o cabelo'
+      else
+        assign bb_text = 'Shop all hair'
+      endif
+    when 'contact.heading'
+      if bb_pt
+        assign bb_text = 'Contacto'
+      else
+        assign bb_text = 'Contact'
+      endif
+    when 'contact.phone_label'
+      if bb_pt
+        assign bb_text = 'Telefone / WhatsApp'
+      else
+        assign bb_text = 'Phone / WhatsApp'
+      endif
+    when 'contact.email_label'
+      assign bb_text = 'Email'
+    when 'contact.address_label'
+      if bb_pt
+        assign bb_text = 'Estúdio'
+      else
+        assign bb_text = 'Studio'
+      endif
+    when 'contact.whatsapp'
+      if bb_pt
+        assign bb_text = 'Falar no WhatsApp'
+      else
+        assign bb_text = 'Chat on WhatsApp'
+      endif
+    when 'contact.directions'
+      if bb_pt
+        assign bb_text = 'Ver direções'
+      else
+        assign bb_text = 'Get directions'
+      endif
+    when 'footer.location'
+      if bb_pt
+        assign bb_text = 'Lisboa, Portugal'
+      else
+        assign bb_text = 'Lisbon, Portugal'
+      endif
+  endcase
+
+  echo bb_text
+-%}

@@ -391,7 +391,7 @@
       "service_area": "Delivery and appointment service in Portugal.",
       "languages": "Support in Português and English.",
       "checkout": "Secure checkout powered by Shopify.",
-      "location": "Lisbon, Portugal"
+      "location": "Portugal"
     },
     "home": {
       "hero_alt": "BRAIDBAR luxury body-wave wig editorial",
@@ -550,30 +550,6 @@
       "notes_placeholder": "Tell us about your current hair, desired finish, colour preference or any questions.",
       "submit": "Send appointment request",
       "note": "No payment is taken by this form. We will confirm availability and next steps before the appointment is final."
-    },
-    "search": {
-      "title": "Search the BRAIDBAR collection",
-      "results_for": "Results for “{{ terms }}”",
-      "label": "Search products",
-      "placeholder": "Search wigs, bundles, lace fronts…",
-      "submit": "Search",
-      "count": {
-        "one": "{{ count }} product found",
-        "other": "{{ count }} products found"
-      },
-      "no_results": "No products matched “{{ terms }}”. Try a shorter word, a texture (straight, body wave, curly) or a length.",
-      "suggestions": "You may also like",
-      "browse": "Shop all hair"
-    },
-    "contact": {
-      "heading": "Contact",
-      "phone_label": "Phone / WhatsApp",
-      "email_label": "Email",
-      "address_label": "Studio",
-      "whatsapp": "Chat on WhatsApp",
-      "directions": "Get directions",
-      "call": "Call us",
-      "email_us": "Email us"
     }
   }
 }

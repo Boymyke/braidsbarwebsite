@@ -22,21 +22,21 @@
 
 <address class="bb-contact {{ class }}">
   <div class="bb-contact__item">
-    <span class="bb-contact__label">{{ 'braidbar.contact.phone_label' | t }}</span>
+    <span class="bb-contact__label">{% render 'bb-text', key: 'contact.phone_label' %}</span>
     <a class="bb-contact__value" href="tel:{{ bb_phone_link }}">{{ bb_phone_display }}</a>
     <a class="bb-contact__action" href="{{ bb_whatsapp_link }}" target="_blank" rel="noopener">
-      {{- 'braidbar.contact.whatsapp' | t -}}
+      {%- render 'bb-text', key: 'contact.whatsapp' -%}
     </a>
   </div>
   <div class="bb-contact__item">
-    <span class="bb-contact__label">{{ 'braidbar.contact.email_label' | t }}</span>
+    <span class="bb-contact__label">{% render 'bb-text', key: 'contact.email_label' %}</span>
     <a class="bb-contact__value" href="mailto:{{ bb_email }}">{{ bb_email }}</a>
   </div>
   <div class="bb-contact__item">
-    <span class="bb-contact__label">{{ 'braidbar.contact.address_label' | t }}</span>
+    <span class="bb-contact__label">{% render 'bb-text', key: 'contact.address_label' %}</span>
     <span class="bb-contact__value">{{ bb_address_line }}<br>{{ bb_address_city }}</span>
     <a class="bb-contact__action" href="{{ bb_maps_link }}" target="_blank" rel="noopener">
-      {{- 'braidbar.contact.directions' | t -}}
+      {%- render 'bb-text', key: 'contact.directions' -%}
     </a>
   </div>
 </address>

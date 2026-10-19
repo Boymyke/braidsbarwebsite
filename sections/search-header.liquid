@@ -21,19 +21,20 @@
       <p class="bb-search__eyebrow">BRAIDBAR</p>
       <h1 class="bb-search__title">
         {%- if search.performed and search.terms != blank -%}
-          {{ 'braidbar.search.results_for' | t: terms: search.terms }}
+          {% render 'bb-text', key: 'search.results_for', terms: search.terms %}
         {%- else -%}
-          {{ 'braidbar.search.title' | t }}
+          {% render 'bb-text', key: 'search.title' %}
         {%- endif -%}
       </h1>
 
+      {%- capture bb_placeholder -%}{%- render 'bb-text', key: 'search.placeholder' -%}{%- endcapture -%}
       <form
         class="bb-search__form"
         action="{{ routes.search_url }}"
         method="get"
         role="search"
       >
-        <label class="visually-hidden" for="bb-search-input-{{ section.id }}">{{ 'braidbar.search.label' | t }}</label>
+        <label class="visually-hidden" for="bb-search-input-{{ section.id }}">{% render 'bb-text', key: 'search.label' %}</label>
         <svg class="bb-search__icon" aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
           <circle cx="11" cy="11" r="7"></circle>
           <path d="m16 16 5 5"></path>
@@ -44,7 +45,7 @@
           type="search"
           name="q"
           value="{{ search.terms | escape }}"
-          placeholder="{{ 'braidbar.search.placeholder' | t }}"
+          placeholder="{{ bb_placeholder | strip | escape }}"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
@@ -55,15 +56,15 @@
         <input type="hidden" name="type" value="product">
         <input type="hidden" name="options[prefix]" value="last">
         <input type="hidden" name="options[unavailable_products]" value="last">
-        <button class="bb-search__submit" type="submit">{{ 'braidbar.search.submit' | t }}</button>
+        <button class="bb-search__submit" type="submit">{% render 'bb-text', key: 'search.submit' %}</button>
       </form>
 
       {% if search.performed %}
         <p class="bb-search__summary" role="status">
           {%- if search.results_count > 0 -%}
-            {{ 'braidbar.search.count' | t: count: search.results_count }}
+            {% render 'bb-text', key: 'search.count', count: search.results_count %}
           {%- else -%}
-            {{ 'braidbar.search.no_results' | t: terms: search.terms }}
+            {% render 'bb-text', key: 'search.no_results', terms: search.terms %}
           {%- endif -%}
         </p>
       {% endif %}

@@ -26,6 +26,12 @@ This repository contains the custom BRAIDBAR storefront files prepared for the u
   scrolled (`assets/braidbar-header.js`); scroll lock moved to `html` so the header stays put.
 - Contact details (phone/WhatsApp, email, Lisbon studio) live in `snippets/bb-contact.liquid`
   and appear in the footer, FAQs and booking page, plus HairSalon structured data for Google.
+  New English/Portuguese copy lives in `snippets/bb-text.liquid` so the locale files stay untouched.
+- Featured hair cards: no white boxes; image, title and price sit directly on the page background.
+- Spacing: shared `--bb-gutter` and `--bb-section-space` tokens keep page edges and section
+  spacing identical across home, FAQs, booking, header menu and footer.
+- These files are uploaded to the unpublished Shopify theme "BRAIDBAR — Back up"
+  (`gid://shopify/OnlineStoreTheme/189421813959`).
 
 ## Catalogue source files
 

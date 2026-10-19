@@ -124,6 +124,15 @@
     --bb-mocha: #a89888;
     --bb-cream: #f7f2ed;
     --bb-shell: 1500px;
+    --bb-gutter: clamp(20px, 4vw, 72px);
+    --bb-section-space: clamp(56px, 8vw, 112px);
+  }
+
+  @media (max-width: 749px) {
+    :root {
+      --bb-gutter: 16px;
+      --bb-section-space: 56px;
+    }
   }
 
   html,
@@ -161,7 +170,7 @@
     width: 100%;
     max-width: var(--bb-shell);
     margin-inline: auto;
-    padding-inline: clamp(20px, 4vw, 72px);
+    padding-inline: var(--bb-gutter);
   }
 
   .bb-motion-ready .bb-reveal {
@@ -513,7 +522,7 @@
     .bb-site-header__mobile-panel nav {
       width: min(100%, var(--bb-shell));
       margin-inline: auto;
-      padding: 0 clamp(20px, 4vw, 72px) 8px;
+      padding: 0 var(--bb-gutter) 8px;
     }
 
     .bb-site-header__mobile-panel a {
@@ -523,15 +532,11 @@
 
     .bb-site-header__mobile-locale-form {
       margin-block-start: auto;
-      padding: 22px max(clamp(20px, 4vw, 72px), calc((100vw - var(--bb-shell)) / 2 + 72px));
+      padding: 22px var(--bb-gutter);
     }
   }
 
   @media (max-width: 749px) {
-    .bb-shell {
-      padding-inline: 16px;
-    }
-
     .bb-site-header__announcement-inner {
       min-height: 38px;
       justify-content: center;
@@ -552,14 +557,6 @@
 
     .bb-site-header__actions {
       gap: 6px;
-    }
-
-    .bb-site-header__mobile-panel nav {
-      padding-inline: 20px;
-    }
-
-    .bb-site-header__mobile-locale-form {
-      padding-inline: 20px;
     }
   }
 {% endstylesheet %}

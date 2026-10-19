@@ -44,14 +44,14 @@
     </div>
 
     <div class="bb-site-footer__contact" id="bb-footer-contact">
-      <h2>{{ 'braidbar.contact.heading' | t }}</h2>
+      <h2>{% render 'bb-text', key: 'contact.heading' %}</h2>
       {% render 'bb-contact', class: 'bb-contact--dark' %}
     </div>
   </div>
 
   <div class="bb-shell bb-site-footer__bottom">
     <span>&copy; {{ 'now' | date: '%Y' }} BRAIDBAR</span>
-    <span>{{ 'braidbar.footer.location' | t }}</span>
+    <span>{% render 'bb-text', key: 'footer.location' %}</span>
   </div>
 </footer>
 
