@@ -1,0 +1,103 @@
+{%- doc -%}
+  BRAIDBAR store contact details (phone / WhatsApp, email, studio address).
+  Edit the details once here and they update everywhere they are shown.
+
+  @param {string} [class] - Extra class for the wrapper (e.g. 'bb-contact--dark')
+
+  @example
+  {% render 'bb-contact', class: 'bb-contact--dark' %}
+{%- enddoc -%}
+{%- liquid
+  assign bb_phone_display = '+351 920 224 758'
+  assign bb_phone_link = '+351920224758'
+  assign bb_whatsapp_link = 'https://wa.me/351920224758'
+  assign bb_email = 'Braidbarstore@gmail.com'
+  assign bb_address_line = 'Avenida Infante Dom Henrique, 89'
+  assign bb_address_city = 'Lisbon, Portugal'
+  if localization.language.iso_code contains 'pt'
+    assign bb_address_city = 'Lisboa, Portugal'
+  endif
+  assign bb_maps_link = 'https://www.google.com/maps/search/?api=1&query=Avenida%20Infante%20Dom%20Henrique%2089%2C%20Lisboa%2C%20Portugal'
+-%}
+
+<address class="bb-contact {{ class }}">
+  <div class="bb-contact__item">
+    <span class="bb-contact__label">{{ 'braidbar.contact.phone_label' | t }}</span>
+    <a class="bb-contact__value" href="tel:{{ bb_phone_link }}">{{ bb_phone_display }}</a>
+    <a class="bb-contact__action" href="{{ bb_whatsapp_link }}" target="_blank" rel="noopener">
+      {{- 'braidbar.contact.whatsapp' | t -}}
+    </a>
+  </div>
+  <div class="bb-contact__item">
+    <span class="bb-contact__label">{{ 'braidbar.contact.email_label' | t }}</span>
+    <a class="bb-contact__value" href="mailto:{{ bb_email }}">{{ bb_email }}</a>
+  </div>
+  <div class="bb-contact__item">
+    <span class="bb-contact__label">{{ 'braidbar.contact.address_label' | t }}</span>
+    <span class="bb-contact__value">{{ bb_address_line }}<br>{{ bb_address_city }}</span>
+    <a class="bb-contact__action" href="{{ bb_maps_link }}" target="_blank" rel="noopener">
+      {{- 'braidbar.contact.directions' | t -}}
+    </a>
+  </div>
+</address>
+
+{% stylesheet %}
+  .bb-contact {
+    display: grid;
+    gap: 16px;
+    margin: 0;
+    font-style: normal;
+  }
+
+  .bb-contact__item {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .bb-contact__label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .bb-contact__value {
+    color: inherit;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  a.bb-contact__value:hover,
+  a.bb-contact__value:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .bb-contact__action {
+    width: fit-content;
+    color: inherit;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    opacity: 0.85;
+  }
+
+  .bb-contact__action:hover,
+  .bb-contact__action:focus-visible {
+    opacity: 1;
+  }
+
+  .bb-contact--dark .bb-contact__value,
+  .bb-contact--dark .bb-contact__action {
+    color: rgb(255 255 255 / 86%);
+  }
+
+  .bb-contact--inline {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px 32px;
+  }
+{% endstylesheet %}

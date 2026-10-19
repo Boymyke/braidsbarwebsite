@@ -111,7 +111,9 @@
   </header>
 </div>
 
+<script src="{{ 'braidbar-price-format.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'braidbar-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'braidbar-header.js' | asset_url }}" defer="defer"></script>
 
 {% stylesheet %}
   :root {
@@ -200,7 +202,8 @@
     box-sizing: border-box;
   }
 
-  #header-group {
+  #header-group,
+  body > .shopify-section:has(> .bb-site-header) {
     position: sticky;
     inset-block-start: 0;
     z-index: 30;
@@ -456,7 +459,11 @@
   }
 
   @media (max-width: 1099px) {
-    body:has(.bb-site-header__mobile-menu[open]) {
+    /* Lock scrolling on the viewport (html), never on body:
+       overflow on body turns it into a scroll container and
+       breaks the sticky header while the menu is open. */
+    html:has(.bb-site-header__mobile-menu[open]),
+    html.bb-menu-open {
       overflow: hidden;
     }
 
@@ -474,13 +481,25 @@
       position: static;
     }
 
+    .bb-site-header__main {
+      /* backdrop-filter would trap the fixed menu panel inside the header */
+      background: var(--bb-cream);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
     .bb-site-header__mobile-panel {
       position: fixed;
-      inset: 106px 0 0;
+      inset-block-start: var(--bb-menu-top, 106px);
+      inset-inline: 0;
+      inset-block-end: auto;
       z-index: 40;
-      width: 100vw;
-      height: calc(100dvh - 106px);
+      width: 100%;
+      height: calc(100vh - var(--bb-menu-top, 106px));
+      height: calc(100dvh - var(--bb-menu-top, 106px));
       max-height: none;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       display: flex;
       flex-direction: column;
       background: #f7f2ed;
@@ -533,11 +552,6 @@
 
     .bb-site-header__actions {
       gap: 6px;
-    }
-
-    .bb-site-header__mobile-panel {
-      inset: 104px 0 0;
-      height: calc(100dvh - 104px);
     }
 
     .bb-site-header__mobile-panel nav {

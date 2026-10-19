@@ -37,15 +37,32 @@
       {% endif %}
 
       {% paginate search.results by products_per_page %}
-        {% if search.results_count > 0 %}
+        {% liquid
+          assign title = nil
+          assign products = nil
+          assign bb_show_suggestions = true
+
+          if search.performed and search.results_count > 0
+            assign products = search.results | where: 'object_type', 'product'
+            if products.size > 0
+              assign bb_show_suggestions = false
+            endif
+          endif
+
+          if bb_show_suggestions
+            assign collection = settings.empty_state_collection | default: collections.all
+            if search.performed
+              assign title = 'braidbar.search.suggestions' | t
+            else
+              assign title = 'braidbar.search.browse' | t
+            endif
+            assign products = collection.products
+          endif
+        %}
+
+        {% unless bb_show_suggestions %}
           {% content_for 'block', type: 'filters', id: 'filters', results: search, results_size: search.results_count %}
-          {% assign products = search.results | where: 'object_type', 'product' %}
-        {% else %}
-          {% assign collection = settings.empty_state_collection | default: collections.all %}
-          {% assign default_title = 'content.search_results_resource_products' | t %}
-          {% assign title = settings.empty_state_collection.title | default: default_title %}
-          {% assign products = collection.products %}
-        {% endif %}
+        {% endunless %}
 
         {% capture children %}
           {% for product in products %}

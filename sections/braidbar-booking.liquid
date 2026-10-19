@@ -47,7 +47,7 @@
             {% assign service_price = service_prices[forloop.index0] %}
             <li>
               <span>{{ service_key | t }}</span>
-              <strong>€{{ service_price }}</strong>
+              <strong>€{{ service_price }}.00</strong>
             </li>
           {% endfor %}
         </ul>
@@ -65,6 +65,10 @@
             <dd>{{ 'braidbar.booking.confirmation_value' | t }}</dd>
           </div>
         </dl>
+        <div class="bb-booking__contact">
+          <p class="bb-booking__eyebrow">{{ 'braidbar.contact.heading' | t }}</p>
+          {% render 'bb-contact', class: 'bb-contact--inline' %}
+        </div>
       </div>
 
       <div class="bb-booking__form-card">
@@ -138,9 +142,7 @@
                 {% for service_key in service_keys %}
                   {% assign service_price = service_prices[forloop.index0] %}
                   {% assign service_label = service_key | t %}
-                  <option value="{{ service_label | escape }} — €{{ service_price }}" data-price="€{{ service_price }}">
-                    {{- service_label }} — €{{ service_price -}}
-                  </option>
+                  <option value="{{ service_label | escape }} — €{{ service_price }}.00" data-price="€{{ service_price }}.00">{{ service_label }} — €{{ service_price }}.00</option>
                 {% endfor %}
               </select>
               <div class="bb-booking__selection" aria-live="polite">
@@ -318,6 +320,17 @@
     font-size: 0.8125rem;
     line-height: 1.5;
     opacity: 0.72;
+  }
+
+  .bb-booking__contact {
+    margin-block-start: 34px;
+    padding: 22px;
+    background: #fff;
+    border: 1px solid rgb(24 16 16 / 12%);
+  }
+
+  .bb-booking__contact .bb-booking__eyebrow {
+    margin-block-end: 14px;
   }
 
   .bb-booking__form-card {

@@ -1,0 +1,46 @@
+{%- doc -%}
+  Formats an amount in cents with a dot as the decimal separator,
+  e.g. 36000 -> €360.00 and 136000 -> €1,360.00, regardless of the
+  store's money format setting.
+
+  @param {number} amount - Amount in cents (e.g. product.price)
+  @param {boolean} [from] - Prefix used for "from" pricing (optional)
+
+  @example
+  {% render 'bb-money', amount: product.price %}
+{%- enddoc -%}
+{%- liquid
+  assign bb_cents = amount | default: 0 | plus: 0 | round
+  assign bb_negative = false
+  if bb_cents < 0
+    assign bb_negative = true
+    assign bb_cents = bb_cents | abs
+  endif
+
+  assign bb_whole = bb_cents | divided_by: 100 | floor
+  assign bb_fraction = bb_cents | modulo: 100 | prepend: '0' | slice: -2, 2
+
+  assign bb_digits = bb_whole | append: '' | split: ''
+  assign bb_count = bb_digits.size
+  assign bb_grouped = ''
+  for bb_digit in bb_digits
+    assign bb_remaining = bb_count | minus: forloop.index0
+    if forloop.index0 > 0
+      assign bb_group_check = bb_remaining | modulo: 3
+      if bb_group_check == 0
+        assign bb_grouped = bb_grouped | append: ','
+      endif
+    endif
+    assign bb_grouped = bb_grouped | append: bb_digit
+  endfor
+
+  assign bb_symbol = cart.currency.symbol | default: '€'
+  if cart.currency.iso_code == 'EUR' or cart.currency.iso_code == blank
+    assign bb_symbol = '€'
+  endif
+
+  if bb_negative
+    echo '-'
+  endif
+  echo bb_symbol | append: bb_grouped | append: '.' | append: bb_fraction
+-%}

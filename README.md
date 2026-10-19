@@ -12,6 +12,21 @@ This repository contains the custom BRAIDBAR storefront files prepared for the u
 - Clear catalogue photography, including the supplied ZIP images
 - Local theme assets so homepage images do not depend on fragile external file URLs
 
+## October 2026 fixes
+
+- Prices: shown as `€360.00` (dot decimals). BRAIDBAR sections use `snippets/bb-money.liquid`;
+  `assets/braidbar-price-format.js` converts any remaining `€360,00` text from base-theme blocks
+  (product page, collection cards, cart drawer). For checkout and emails, also set
+  Shopify admin → Settings → General → Store defaults → Currency display → Change formatting
+  to `€{{amount}}` / `€{{amount}} EUR`.
+- Search: the search page uses its own product-only form with prefix matching
+  (`type=product`, `options[prefix]=last`), shows the number of matches, and labels
+  suggestions clearly when nothing matches.
+- Mobile menu: the panel now opens directly under the sticky header wherever the page is
+  scrolled (`assets/braidbar-header.js`); scroll lock moved to `html` so the header stays put.
+- Contact details (phone/WhatsApp, email, Lisbon studio) live in `snippets/bb-contact.liquid`
+  and appear in the footer, FAQs and booking page, plus HairSalon structured data for Google.
+
 ## Catalogue source files
 
 - `catalogue/wigs.json` contains the five wig products and EUR pricing

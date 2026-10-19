@@ -30,7 +30,10 @@
       <p class="bb-faqs__eyebrow">{{ 'braidbar.faqs.contact_eyebrow' | t }}</p>
       <h2>{{ 'braidbar.faqs.contact_title' | t }}</h2>
       <p>{{ 'braidbar.faqs.contact_text' | t }}</p>
-      <a href="/pages/book-appointment">{{ 'braidbar.faqs.contact_button' | t }}</a>
+      <a class="bb-faqs__contact-button" href="/pages/book-appointment">{{ 'braidbar.faqs.contact_button' | t }}</a>
+      <div class="bb-faqs__contact-details">
+        {% render 'bb-contact' %}
+      </div>
     </aside>
   </section>
 </div>
@@ -171,7 +174,13 @@
     line-height: 1.7;
   }
 
-  .bb-faqs__contact a {
+  .bb-faqs__contact-details {
+    margin-block-start: 28px;
+    padding-block-start: 24px;
+    border-block-start: 1px solid rgb(24 16 16 / 22%);
+  }
+
+  .bb-faqs__contact a.bb-faqs__contact-button {
     min-height: 48px;
     display: inline-flex;
     align-items: center;
@@ -206,7 +215,7 @@
       padding-inline-end: 28px;
     }
 
-    .bb-faqs__contact a {
+    .bb-faqs__contact a.bb-faqs__contact-button {
       width: 100%;
     }
   }

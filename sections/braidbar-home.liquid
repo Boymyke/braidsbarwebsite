@@ -122,7 +122,7 @@
                 </div>
                 <div class="bb-home__product-copy">
                   <h3>{{ product.title }}</h3>
-                  <p>{{ product.price | money }}</p>
+                  <p class="bb-price">{% render 'bb-money', amount: product.price %}</p>
                 </div>
               </a>
             </article>

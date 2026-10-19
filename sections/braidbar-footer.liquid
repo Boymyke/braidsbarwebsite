@@ -32,7 +32,7 @@
       <a href="/pages/book-appointment">{{ 'braidbar.nav.appointments' | t }}</a>
       <a href="/pages/about">{{ 'braidbar.nav.about' | t }}</a>
       <a href="/pages/faqs">{{ 'braidbar.nav.faqs' | t }}</a>
-      <a href="/pages/contact">{{ 'braidbar.nav.contact' | t }}</a>
+      <a href="#bb-footer-contact">{{ 'braidbar.nav.contact' | t }}</a>
       <a href="{{ routes.search_url }}">{{ 'braidbar.header.search' | t }}</a>
     </nav>
 
@@ -42,6 +42,11 @@
       <p>{{ 'braidbar.footer.languages' | t }}</p>
       <p>{{ 'braidbar.footer.checkout' | t }}</p>
     </div>
+
+    <div class="bb-site-footer__contact" id="bb-footer-contact">
+      <h2>{{ 'braidbar.contact.heading' | t }}</h2>
+      {% render 'bb-contact', class: 'bb-contact--dark' %}
+    </div>
   </div>
 
   <div class="bb-shell bb-site-footer__bottom">
@@ -49,6 +54,29 @@
     <span>{{ 'braidbar.footer.location' | t }}</span>
   </div>
 </footer>
+
+{%- if template.name == 'index' or template.suffix == 'about' or template.suffix == 'book-appointment' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HairSalon",
+      "name": {{ shop.name | json }},
+      "url": {{ request.origin | append: routes.root_url | json }},
+      "logo": {{ 'braidbar-logo.svg' | asset_url | prepend: 'https:' | json }},
+      "telephone": "+351920224758",
+      "email": "Braidbarstore@gmail.com",
+      "priceRange": "€€",
+      "currenciesAccepted": "EUR",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Avenida Infante Dom Henrique 89",
+        "addressLocality": "Lisboa",
+        "addressCountry": "PT"
+      },
+      "areaServed": "PT"
+    }
+  </script>
+{%- endif -%}
 
 {% stylesheet %}
   .bb-site-footer {
@@ -58,7 +86,7 @@
 
   .bb-site-footer__grid {
     display: grid;
-    grid-template-columns: minmax(220px, 1.5fr) repeat(3, minmax(130px, 1fr));
+    grid-template-columns: minmax(220px, 1.4fr) repeat(4, minmax(130px, 1fr));
     gap: clamp(32px, 5vw, 72px);
     padding-block: clamp(48px, 7vw, 88px);
   }
@@ -128,6 +156,24 @@
     font-size: 0.6875rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  .bb-site-footer__contact .bb-contact {
+    gap: 14px;
+  }
+
+  .bb-site-footer__contact .bb-contact__value {
+    font-size: 0.8125rem;
+  }
+
+  @media (max-width: 1199px) {
+    .bb-site-footer__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .bb-site-footer__brand {
+      grid-column: 1 / -1;
+    }
   }
 
   @media (max-width: 989px) {
