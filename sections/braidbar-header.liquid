@@ -114,6 +114,7 @@
 <script src="{{ 'braidbar-price-format.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'braidbar-motion.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'braidbar-header.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'braidbar-form-guard.js' | asset_url }}" defer="defer"></script>
 
 {% stylesheet %}
   :root {
@@ -186,6 +187,148 @@
     opacity: 1;
     transform: none;
     will-change: auto;
+  }
+
+  /* Page-load entrance for hero copy and page titles */
+  @keyframes bb-rise {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes bb-hero-zoom {
+    from {
+      transform: scale(1.06);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  /* Opacity only: the panel's position is measured by braidbar-header.js */
+  @keyframes bb-panel-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .bb-home__hero-image {
+      animation: bb-hero-zoom 1600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .bb-home__hero-copy > *,
+    .bb-faqs__hero-inner > *,
+    .bb-booking__intro > *,
+    .bb-collection-header .bb-shell > *,
+    .bb-about__hero-copy > * {
+      animation: bb-rise 820ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .bb-home__hero-copy > :nth-child(2),
+    .bb-faqs__hero-inner > :nth-child(2),
+    .bb-booking__intro > :nth-child(2),
+    .bb-collection-header .bb-shell > :nth-child(2),
+    .bb-about__hero-copy > :nth-child(2) {
+      animation-delay: 90ms;
+    }
+
+    .bb-home__hero-copy > :nth-child(3),
+    .bb-faqs__hero-inner > :nth-child(3),
+    .bb-booking__intro > :nth-child(3),
+    .bb-about__hero-copy > :nth-child(3) {
+      animation-delay: 180ms;
+    }
+
+    .bb-home__hero-copy > :nth-child(4),
+    .bb-booking__intro > :nth-child(4),
+    .bb-about__hero-copy > :nth-child(4) {
+      animation-delay: 270ms;
+    }
+
+    .bb-site-header__mobile-menu[open] .bb-site-header__mobile-panel {
+      animation: bb-panel-in 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .bb-site-header__mobile-menu[open] .bb-site-header__mobile-panel nav a {
+      animation: bb-rise 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .bb-site-header__mobile-menu[open] .bb-site-header__mobile-panel nav a:nth-child(2) { animation-delay: 30ms; }
+    .bb-site-header__mobile-menu[open] .bb-site-header__mobile-panel nav a:nth-child(3) { animation-delay: 60ms; }
+    .bb-site-header__mobile-menu[open] .bb-site-header__mobile-panel nav a:nth-child(4) { animation-delay: 90ms; }
+    .bb-site-header__mobile-menu[open] .bb-site-header__mobile-panel nav a:nth-child(5) { animation-delay: 120ms; }
+    .bb-site-header__mobile-menu[open] .bb-site-header__mobile-panel nav a:nth-child(6) { animation-delay: 150ms; }
+    .bb-site-header__mobile-menu[open] .bb-site-header__mobile-panel nav a:nth-child(7) { animation-delay: 180ms; }
+
+    /* Smooth hover states for buttons and links */
+    .bb-home__button,
+    .bb-booking__submit,
+    .bb-search__submit,
+    .bb-faqs__contact a.bb-faqs__contact-button,
+    .bb-site-header__desktop-nav a,
+    .bb-site-header__action,
+    .bb-site-footer a,
+    .bb-contact a {
+      transition:
+        color 220ms ease,
+        background-color 220ms ease,
+        border-color 220ms ease,
+        opacity 220ms ease,
+        transform 220ms ease;
+    }
+
+    .bb-home__button:hover,
+    .bb-booking__submit:hover,
+    .bb-faqs__contact a.bb-faqs__contact-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .bb-site-header__desktop-nav a {
+      position: relative;
+    }
+
+    .bb-site-header__desktop-nav a::after {
+      content: '';
+      position: absolute;
+      inset-inline: 0;
+      inset-block-end: 10px;
+      height: 1px;
+      background: currentcolor;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .bb-site-header__desktop-nav a:hover::after,
+    .bb-site-header__desktop-nav a:focus-visible::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .product-grid__item .card-gallery img {
+      transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .product-grid__item:hover .card-gallery img {
+      transform: scale(1.03);
+    }
+  }
+
+  .bb-site-header {
+    transition: box-shadow 260ms ease;
+  }
+
+  .bb-site-header--scrolled {
+    box-shadow: 0 10px 30px rgb(32 24 16 / 8%);
   }
 
   @media (prefers-reduced-motion: reduce) {

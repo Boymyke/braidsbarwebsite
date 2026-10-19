@@ -13,6 +13,10 @@
     '.bb-faqs__item',
     '.bb-faqs__contact',
     '.bb-cart-shell .cart-page > *',
+    '.bb-search > *',
+    '.bb-booking__contact',
+    '.bb-site-footer__grid > *',
+    '.product-grid__item',
   ].join(',');
 
   const revealAll = (root = document) => {
@@ -69,4 +73,23 @@
   }
 
   document.addEventListener('shopify:section:load', (event) => init(event.target));
+
+  // Soft shadow under the sticky header once the page is scrolled.
+  const header = () => document.querySelector('.bb-site-header');
+  let ticking = false;
+  const updateHeader = () => {
+    ticking = false;
+    const element = header();
+    if (element) element.classList.toggle('bb-site-header--scrolled', window.scrollY > 8);
+  };
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(updateHeader);
+    },
+    { passive: true }
+  );
+  updateHeader();
 })();

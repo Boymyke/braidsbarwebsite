@@ -33,6 +33,19 @@ This repository contains the custom BRAIDBAR storefront files prepared for the u
 - These files are uploaded to the unpublished Shopify theme "BRAIDBAR — Back up"
   (`gid://shopify/OnlineStoreTheme/189421813959`).
 
+## October 19 (second pass)
+
+- Search results: `templates/search.json` now carries the product-card blocks, so matches
+  render with image, title and price (they were empty cards before).
+- Portuguese: pt-PT added to the braidbar.store web presence (https://braidbar.store/pt/).
+- Cart summary and FAQ help card use warm `#EEE5DE` with a fine border instead of grey.
+- Motion: hero/page-title entrance, scroll reveals on more sections and product cards,
+  header shadow on scroll, menu fade, hover states; all off for reduced-motion users.
+- Favicon: `assets/braidbar-favicon-32.png` and `assets/braidbar-apple-touch-icon.png`,
+  wired in `layout/theme.liquid` (used unless a favicon is set in theme settings).
+- Spam: `assets/braidbar-form-guard.js` adds a honeypot and minimum fill time to contact,
+  booking and newsletter forms. Also enable hCaptcha in Online Store > Preferences.
+
 ## Catalogue source files
 
 - `catalogue/wigs.json` contains the five wig products and EUR pricing
